@@ -1,0 +1,15 @@
+h1 {
+    display: flex;
+    justify-content: center;
+}
+
+.home-page {
+    display: flex;
+    flex-direction: row;
+}
+
+.searching {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}

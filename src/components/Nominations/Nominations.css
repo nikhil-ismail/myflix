@@ -1,0 +1,28 @@
+.nominations-container {
+    background-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-bottom: 20px;
+    border-radius: 10px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.remove-button {
+    width: 100px;
+    padding: 5px;
+    font-size: 12px;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: black;
+    background-color: white;
+}
