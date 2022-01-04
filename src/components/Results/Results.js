@@ -5,26 +5,62 @@ const Results = (props) => {
     
     const { query, results } = props;
 
+    console.log(results);
+
+    /*
+    {
+        results.length === 0
+        ?
+        <p>Your search did not have any matches.</p>
+        :
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Year</th> 
+                <th>Nominate</th>
+            </tr>
+            {
+                results.map((result, index) => {
+                    return (
+                        <tr>
+                            <td>{result.Title}</td>
+                            <td>{result.Year}</td> 
+                            <td><button className="remove-button">Remove</button></td>
+                        </tr>
+                    );
+                })
+            }
+        </table>
+    }
+    */
+
     return (
         <div className="results-container">
             <h3>Results for "{query}"</h3>
-            <table>
-                <tr>
-                    <th>Title</th>
-                    <th>Year</th> 
-                    <th>Nominate</th>
-                </tr>
-                <tr>
-                    <td>The Amazing Spiderman</td>
-                    <td>2002</td> 
-                    <td><button className="nominate-button">Nominate</button></td>
-                </tr>
-                <tr>
-                    <td>The Dark Knight</td>
-                    <td>2008</td>
-                    <td><button className="nominate-button">Nominate</button></td>
-                </tr>
-            </table>
+            {
+                results.length === 0
+                ?
+                <p>Your search did not have any matches.</p>
+                :
+                <table>
+                    <tr>
+                        <th>Title</th>
+                        <th>Year</th> 
+                        <th>Nominate</th>
+                    </tr>
+                    {
+                        results.map((result, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td>{result.Title}</td>
+                                    <td>{result.Year}</td> 
+                                    <td><button className="remove-button">Remove</button></td>
+                                </tr>
+                            );
+                        })
+                    }
+                </table>
+            }
         </div>
     );
 }

@@ -11,19 +11,28 @@ const Home = () => {
   const [results, setResults] = useState([]);
   const [query, setQuery] = useState('');
 
-  const handleSearch = (term) => {
-    setQuery(term);
-    console.log('QUERY-------->');
-    console.log(term);
+  const handleQueryChange = (text) => {
+    setQuery(text);
   }
 
   useEffect(() => {
+    console.log('QUERY---------');
+    console.log(query);
     axios.get(`http://www.omdbapi.com/?apikey=dffd1309&s=${query}`)
     .then(response => {
-        setResults(response.data);
-        console.log(results);
+        if (response.data.Response === "True") {
+          setResults(response.data.Search);
+          console.log(results);
+        }
+        else {
+          setResults([]);
+          console.log(results);
+        }
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+        console.log('ERROR FOUND---------')
+        console.log(err);
+    })
   }, [query])
 
   return (
@@ -34,11 +43,11 @@ const Home = () => {
             query === ""
             ?
             <div className="searching">
-              <Search handleSearch={handleSearch} />
+              <Search handleQueryChange={handleQueryChange} />
             </div>
             :
             <div className="searching">
-              <Search handleSearch={handleSearch} />
+              <Search handleQueryChange={handleQueryChange} />
               <Results query={query} results={results} />
             </div>
           }
