@@ -5,34 +5,9 @@ const Results = (props) => {
     
     const { query, results } = props;
 
-    console.log(results);
-
-    /*
-    {
-        results.length === 0
-        ?
-        <p>Your search did not have any matches.</p>
-        :
-        <table>
-            <tr>
-                <th>Title</th>
-                <th>Year</th> 
-                <th>Nominate</th>
-            </tr>
-            {
-                results.map((result, index) => {
-                    return (
-                        <tr>
-                            <td>{result.Title}</td>
-                            <td>{result.Year}</td> 
-                            <td><button className="remove-button">Remove</button></td>
-                        </tr>
-                    );
-                })
-            }
-        </table>
+    const handleNominateClick = (movie) => {
+        console.log('NOMNINATION ---------', movie);
     }
-    */
 
     return (
         <div className="results-container">
@@ -54,7 +29,7 @@ const Results = (props) => {
                                 <tr key={index}>
                                     <td>{result.Title}</td>
                                     <td>{result.Year}</td> 
-                                    <td><button className="remove-button">Remove</button></td>
+                                    <td><button className="nominate-button" onClick={handleNominateClick(result)}>Nominate</button></td>
                                 </tr>
                             );
                         })
