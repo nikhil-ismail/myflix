@@ -11,7 +11,7 @@ const Search = (props) => {
   
   return (
     <div className="search-container">
-        <h3>Movie Title</h3>
+        <h3>Search Movies</h3>
         <input className="search-box" type="text" placeholder="Search..." onChange={handleChange} />
     </div>
   );

@@ -31,24 +31,23 @@ const Home = () => {
   }, [query])
 
   return (
-      <div>
-        <h1>The Shoppies</h1>
-        <div className="home-page">
-          {
-            query === ""
-            ?
-            <div className="searching">
-              <Search handleQueryChange={handleQueryChange} />
-            </div>
-            :
-            <div className="searching">
-              <Search handleQueryChange={handleQueryChange} />
-              <Results query={query} results={results} />
-            </div>
-          }
-          <Nominations nominations={nominations} />
-        </div>
+    <div>
+      <div className="home-page">
+        {
+          query === ""
+          ?
+          <div className="searching">
+            <Search handleQueryChange={handleQueryChange} />
+          </div>
+          :
+          <div className="searching">
+            <Search handleQueryChange={handleQueryChange} />
+            <Results query={query} results={results} />
+          </div>
+        }
+        <Nominations nominations={nominations} />
       </div>
+    </div>
   );
 }
 
