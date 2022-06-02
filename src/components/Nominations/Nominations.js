@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Nominations.css';
 
 const Nominations = (props) => {
@@ -15,7 +15,7 @@ const Nominations = (props) => {
 
     return (
         <div className="nominations-container">
-            <h3>Nominations</h3>
+            <h3>Trending with Friends</h3>
             {
                 nominations.length === 0
                 ?

@@ -7,7 +7,6 @@ import Nominations from '../Nominations/Nominations';
 
 const Home = () => {
 
-  const [nominations, setNominations] = useState([]);
   const [results, setResults] = useState([]);
   const [query, setQuery] = useState('');
 
@@ -45,7 +44,7 @@ const Home = () => {
             <Results query={query} results={results} />
           </div>
         }
-        <Nominations nominations={nominations} />
+        <Nominations />
       </div>
     </div>
   );

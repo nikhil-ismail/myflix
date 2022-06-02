@@ -1,0 +1,11 @@
+.favourites-container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+
+.category-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

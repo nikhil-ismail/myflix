@@ -1,17 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import Navigation from "../Navigation/Navigation";
 import Home from "../Home/Home";
 import Favourites from "../Favourites/Favourites";
+import Friends from "../Friends/Friends";
 
 const Authenticated = (props) => {
   return (
     <div>
-      <Navigation
-        handleLogout={props.handleLogout}
-        handleHome={props.handleHome}
-        handleFavourites={props.handleFavourites}
-      />
-      {props.endpoint === "home" ? <Home /> : <Favourites />}
+      <Navigation handleRouteChange={props.handleRouteChange} />
+      {props.endpoint === "home" ? <Home /> : props.endpoint === "favourites" ? <Favourites /> : <Friends />}
     </div>
   );
 };
