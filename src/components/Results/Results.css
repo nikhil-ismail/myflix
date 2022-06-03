@@ -8,6 +8,8 @@
     padding-left: 30px;
     padding-bottom: 20px;
     border-radius: 10px;
+    justify-content: center;
+    align-items: center;
 }
 
 td, th {
@@ -24,4 +26,15 @@ td, th {
     border-width: 1px;
     border-color: black;
     background-color: white;
+}
+
+.more-button {
+    width: 100px;
+    padding: 5px;
+    font-size: 12px;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: black;
+    background-color: white;
+    margin-top: 20px;
 }

@@ -22,11 +22,14 @@ const Nominations = (props) => {
                 <p>You have not nominated any movies for the Shoppies yet!</p>
                 :
                 <table>
+                    <thead>
                     <tr>
                         <th>Title</th>
                         <th>Year</th> 
                         <th>Remove</th>
                     </tr>
+                    </thead>
+                    <tbody>
                     {
                         nominations.map((nomination, index) => {
                             return (
@@ -38,6 +41,7 @@ const Nominations = (props) => {
                             );
                         })
                     }
+                    </tbody>
                 </table>
             }
         </div>

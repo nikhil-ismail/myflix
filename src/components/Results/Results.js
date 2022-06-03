@@ -36,41 +36,54 @@ const Results = (props) => {
   return (
     <div className="results-container">
       <h3>Results for "{query}"</h3>
-      {results.length === 0 ? (
+      {results.length === 0 && props.resultCount === 0 ? (
         <p>Your search did not have any matches.</p>
       ) : (
         <table>
-          <tr>
-            <th>Title</th>
-            <th>Year</th>
-            <th>Add to Watch List</th>
-            <th>Add to Favourites</th>
-          </tr>
-          {results.map((result, index) => {
-            return (
-              <tr key={index}>
-                <td>{result.Title}</td>
-                <td>{result.Year}</td>
-                <td>
-                  <button
-                    className="nominate-button"
-                    onClick={() => handleWatchList(result)}
-                  >
-                    Add
-                  </button>
-                </td>
-                <td>
-                  <button
-                    className="nominate-button"
-                    onClick={() => handleLike(result)}
-                  >
-                    Like
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Year</th>
+              <th>Add to Watch List</th>
+              <th>Add to Favourites</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.map((result, index) => {
+              return (
+                <tr key={index}>
+                  <td>{result.Title}</td>
+                  <td>{result.Year}</td>
+                  <td>
+                    <button
+                      className="nominate-button"
+                      onClick={() => handleWatchList(result)}
+                    >
+                      Add
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="nominate-button"
+                      onClick={() => handleLike(result)}
+                    >
+                      Like
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
+      )}
+      {props.resultCount === 0 ? (
+        <button className="more-button" onClick={() => props.handleShowMore()}>
+          Show More
+        </button>
+      ) : (
+        <button className="more-button" onClick={() => props.handleShowLess()}>
+          Show Less
+        </button>
       )}
     </div>
   );
