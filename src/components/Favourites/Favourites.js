@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Favourites.css";
-import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
+import { collection, getDocs, query, where, getDoc, deleteDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
 
 const Favourites = () => {
@@ -31,6 +31,24 @@ const Favourites = () => {
     getWatchList();
   }, [favourites, watchList]);
 
+  const handleUnlike = async (movie) => {
+    const q = query(
+        collection(db, "favourites"),
+        where("movie", "==", movie)
+    );
+    const rawData = await getDocs(q);
+    const data = rawData.docs.map((doc) => ({ ...doc.data() }));
+    // loop through data and if email equals userEmail then delete that doc
+    console.log(data);
+    /*const q = query(
+        collection(db, "favourites"),
+        where("email", "==", userEmail),
+        where("movie", "==", movie)
+    );
+    const data = await getDoc(q);
+    await deleteDoc(data);*/
+  }
+
   return (
     <div className="favourites-container">
       <div className="category-container">
@@ -53,7 +71,7 @@ const Favourites = () => {
                     <td>{favourite.movie.title}</td>
                     <td>{favourite.movie.year}</td>
                     <td>
-                      <button className="remove-button">Remove</button>
+                      <button onClick={() => handleUnlike(favourite.movie)} className="remove-button">Remove</button>
                     </td>
                   </tr>
                 );
