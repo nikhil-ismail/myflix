@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import "./Signup.css";
 import { auth } from '../../firebase-config';
 import { db } from '../../firebase-config';
 import { collection, addDoc } from 'firebase/firestore';
+import { Flex, Text, Heading, Input, Button } from "@chakra-ui/react";
 
 const Signup = (props) => {
 
@@ -27,25 +27,25 @@ const Signup = (props) => {
  
   
   return (
-    <div>
-      <div className="signup-container">
-        <h1>SIGNUP</h1>
-        <div className="input-container">
-          <p>Name</p>
-          <input type="text" onChange={(event) => {setName(event.target.value)}} />
-        </div>
-        <div className="input-container">
-          <p>Email</p>
-          <input type="email" onChange={(event) => {setEmail(event.target.value)}} />
-        </div>
-        <div className="input-container">
-          <p>Password</p>
-          <input type="password" onChange={(event) => {setPassword(event.target.value)}} />
-        </div>
-        <button onClick={register}>Sign Up</button>
-        <p onClick={() => props.handleRouteChange('login')}>Already a user? Login here!</p>
-      </div>
-    </div>
+    <Flex>
+      <Flex justifyContent="center" alignItems="center" flexDirection="column">
+        <Heading>SIGNUP</Heading>
+        <Flex>
+          <Text>Name</Text>
+          <Input type="text" onChange={(event) => {setName(event.target.value)}} />
+        </Flex>
+        <Flex>
+          <Text>Email</Text>
+          <Input type="email" onChange={(event) => {setEmail(event.target.value)}} />
+        </Flex>
+        <Flex>
+          <Text>Password</Text>
+          <Input type="password" onChange={(event) => {setPassword(event.target.value)}} />
+        </Flex>
+        <Button onClick={register}>Sign Up</Button>
+        <Text cursor="pointer" onClick={() => props.handleRouteChange('login')}>Already a user? Login here!</Text>
+      </Flex>
+    </Flex>
   );
 };
 

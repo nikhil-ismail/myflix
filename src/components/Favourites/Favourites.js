@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "./Favourites.css";
-import { collection, getDocs, query, where, getDoc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, query, where, doc, deleteDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
+import { Text, Flex, Heading } from "@chakra-ui/react";
+import MyList from "../MyList/MyList";
 
 const Favourites = () => {
   const [favourites, setFavourites] = useState([]);
@@ -11,105 +12,56 @@ const Favourites = () => {
 
   useEffect(() => {
     const getFavourites = async () => {
-      const q = query(
-        collection(db, "favourites"),
-        where("email", "==", userEmail)
-      );
-      const data = await getDocs(q);
-      setFavourites(data.docs.map((doc) => ({ ...doc.data() })));
+      try {
+        const q = query(collection(db, "favourites"), where("email", "==", userEmail));
+        const data = await getDocs(q);
+        setFavourites(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      }
+      catch(err) {
+        //console.log(err);
+      }
     };
     const getWatchList = async () => {
-      const q = query(
-        collection(db, "watch-list"),
-        where("email", "==", userEmail)
-      );
-      const data = await getDocs(q);
-      setWatchList(data.docs.map((doc) => ({ ...doc.data() })));
+      try {
+        const q = query(collection(db, "watch-list"), where("email", "==", userEmail));
+        const data = await getDocs(q);
+        setWatchList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      }
+      catch(err) {
+        //console.log(err);
+      }
     };
-
     getFavourites();
     getWatchList();
   }, [favourites, watchList]);
 
-  const handleUnlike = async (movie) => {
-    const q = query(
-        collection(db, "favourites"),
-        where("movie", "==", movie)
-    );
-    const rawData = await getDocs(q);
-    const data = rawData.docs.map((doc) => ({ ...doc.data() }));
-    // loop through data and if email equals userEmail then delete that doc
-    console.log(data);
-    /*const q = query(
-        collection(db, "favourites"),
-        where("email", "==", userEmail),
-        where("movie", "==", movie)
-    );
-    const data = await getDoc(q);
-    await deleteDoc(data);*/
-  }
-
   return (
-    <div className="favourites-container">
-      <div className="category-container">
-        <h3>Favourite Movies</h3>
+    <Flex flexDirection="row">
+      <Flex borderRadius="10px" padding="25px" marginLeft="40px" backgroundColor="lightgray" flexDirection="column">
+        <Heading fontSize="26px" mb="25px">Favourite Movies</Heading>
         {favourites.length === 0 ? (
-          <p>You have not liked any movies yet!</p>
+          <Text>You have not liked any movies yet!</Text>
         ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Year</th>
-                <th>Remove</th>
-              </tr>
-            </thead>
-            <tbody>
-              {favourites.map((favourite, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{favourite.movie.title}</td>
-                    <td>{favourite.movie.year}</td>
-                    <td>
-                      <button onClick={() => handleUnlike(favourite.movie)} className="remove-button">Remove</button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          favourites.map((favourite, index) => {
+            return (
+              <MyList favourites={favourites} watchList={watchList} key={index} movie={favourite} />
+            )
+          })
         )}
-      </div>
-      <div className="category-container">
-        <h3>My Watch List</h3>
+      </Flex>
+      <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="lightgray" flexDirection="column">
+        <Heading fontSize="26px" mb="25px">My Watch List</Heading>
         {watchList.length === 0 ? (
-          <p>You have not added any movies to your watch list yet!</p>
+          <Text>You have not added any movies to your watch list yet!</Text>
         ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Year</th>
-                <th>Remove</th>
-              </tr>
-            </thead>
-            <tbody>
-              {watchList.map((watch, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{watch.movie.title}</td>
-                    <td>{watch.movie.year}</td>
-                    <td>
-                      <button className="remove-button">Remove</button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          watchList.map((watch, index) => {
+            return (
+              <MyList favourites={favourites} watchList={watchList} key={index} movie={watch} />
+            )
+          })
         )}
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 

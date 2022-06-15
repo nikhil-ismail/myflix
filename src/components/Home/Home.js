@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Home.css';
 import Search from '../Search/Search';
 import Results from '../Results/Results';
 import Nominations from '../Nominations/Nominations';
 import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
+import { Flex } from "@chakra-ui/react";
 
 const Home = () => {
 
@@ -33,20 +33,24 @@ const Home = () => {
 
   useEffect(() => {
     const getFavourites = async () => {
-      const q = query(
-        collection(db, "favourites"),
-        where("email", "==", userEmail)
-      );
-      const data = await getDocs(q);
-      setFavourites(data.docs.map((doc) => ({ ...doc.data() })));
+      try {
+        const q = query(collection(db, "favourites"), where("email", "==", userEmail));
+        const data = await getDocs(q);
+        setFavourites(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      }
+      catch(err) {
+        //console.log(err);
+      }
     };
     const getWatchList = async () => {
-      const q = query(
-        collection(db, "watch-list"),
-        where("email", "==", userEmail)
-      );
-      const data = await getDocs(q);
-      setWatchList(data.docs.map((doc) => ({ ...doc.data() })));
+      try {
+        const q = query(collection(db, "watch-list"), where("email", "==", userEmail));
+        const data = await getDocs(q);
+        setWatchList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      }
+      catch(err) {
+        //console.log(err);
+      }
     };
     getFavourites();
     getWatchList();
@@ -72,23 +76,23 @@ const Home = () => {
   }, [query, resultCount])
 
   return (
-    <div>
-      <div className="home-page">
+    <Flex>
+      <Flex flexDirection="row">
         {
           query === ""
           ?
-          <div className="searching">
+          <Flex flexDirection="column" width="55%">
             <Search handleQueryChange={handleQueryChange} />
-          </div>
+          </Flex>
           :
-          <div className="searching">
+          <Flex width="55%" flexDirection="column" className="searching">
             <Search handleQueryChange={handleQueryChange} />
-            <Results query={query} results={results} resultCount={resultCount} handleShowLess={handleShowLess} handleShowMore={handleShowMore} />
-          </div>
+            <Results favourites={favourites} watchList={watchList} query={query} results={results} resultCount={resultCount} handleShowLess={handleShowLess} handleShowMore={handleShowMore} />
+          </Flex>
         }
         <Nominations />
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 }
 

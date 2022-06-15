@@ -3,6 +3,7 @@ import "./App.css";
 import Login from "./components/Login/Login";
 import Authenticated from "./components/Authenticated/Authenticated";
 import Signup from "./components/Signup/Signup";
+import { Flex } from "@chakra-ui/react";
 
 const App = () => {
 
@@ -37,7 +38,7 @@ const App = () => {
   }
 
   return (
-    <div className="app-container">
+    <Flex className="app-container">
       {authenticated === true ? (
         <Authenticated
           endpoint={endpoint}
@@ -52,7 +53,7 @@ const App = () => {
         <Signup successfulLogin={successfulLogin} handleRouteChange={handleRouteChange} />
       )
       }
-    </div>
+    </Flex>
   );
 };
 

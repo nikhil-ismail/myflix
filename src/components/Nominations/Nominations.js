@@ -1,5 +1,5 @@
 import React from 'react';
-import './Nominations.css';
+import { Text, Flex, Button } from "@chakra-ui/react";
 
 const Nominations = (props) => {
 
@@ -14,12 +14,12 @@ const Nominations = (props) => {
     ];
 
     return (
-        <div className="nominations-container">
+        <Flex backgroundColor="lightgray" flexDirection="column" ml="30px" mr="30px" pr="30px" pl="30px" pb="20px" borderRadius="10px">
             <h3>Trending with Friends</h3>
             {
                 nominations.length === 0
                 ?
-                <p>You have not nominated any movies for the Shoppies yet!</p>
+                <Text>You have not nominated any movies for the Shoppies yet!</Text>
                 :
                 <table>
                     <thead>
@@ -36,7 +36,7 @@ const Nominations = (props) => {
                                 <tr key={index}>
                                     <td>{nomination.title}</td>
                                     <td>{nomination.year}</td> 
-                                    <td><button className="remove-button">Remove</button></td>
+                                    <td><Button>Remove</Button></td>
                                 </tr>
                             );
                         })
@@ -44,7 +44,7 @@ const Nominations = (props) => {
                     </tbody>
                 </table>
             }
-        </div>
+        </Flex>
     );
 }
 

@@ -1,10 +1,11 @@
 import React from "react";
+import { Flex, Heading } from "@chakra-ui/react";
 
 const Friends = (props) => {
   return (
-    <div>
-      <h1>HELLO</h1>
-    </div>
+    <Flex>
+      <Heading>HELLO</Heading>
+    </Flex>
   );
 };
 

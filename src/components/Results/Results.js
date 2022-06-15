@@ -1,91 +1,32 @@
 import React from "react";
-import "./Results.css";
-import { collection, addDoc } from "firebase/firestore";
-import { db, auth } from "../../firebase-config";
+import MovieResult from "../MovieResult/MovieResult";
+import { Text, Flex, Button, Heading } from "@chakra-ui/react";
 
 const Results = (props) => {
-  const { query, results } = props;
-  const userEmail = auth.currentUser.email;
-  const favouritesCollectionRef = collection(db, "favourites");
-  const watchListCollectionRef = collection(db, "watch-list");
-
-  const handleWatchList = async (film) => {
-    let movie = {
-      id: film.imdbID,
-      image: film.Poster,
-      title: film.Title,
-      type: film.Type,
-      year: film.Year,
-    };
-    await addDoc(watchListCollectionRef, { email: userEmail, movie: movie });
-    console.log("Add to watch list ---------", movie);
-  };
-
-  const handleLike = async (film) => {
-    let movie = {
-      id: film.imdbID,
-      image: film.Poster,
-      title: film.Title,
-      type: film.Type,
-      year: film.Year,
-    };
-    await addDoc(favouritesCollectionRef, { email: userEmail, movie: movie });
-    console.log("Add to favourites", movie);
-  };
+  const { query, results, favourites, watchList } = props;
 
   return (
-    <div className="results-container">
-      <h3>Results for "{query}"</h3>
+    <Flex backgroundColor="lightgray" flexDirection="column" mt="20px" ml="30px" padding="25px" borderRadius="10px">
+      <Heading fontSize="26px" mb="25px">Results for "{query}"</Heading>
       {results.length === 0 && props.resultCount === 0 ? (
-        <p>Your search did not have any matches.</p>
+        <Text>Your search did not have any matches.</Text>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Year</th>
-              <th>Add to Watch List</th>
-              <th>Add to Favourites</th>
-            </tr>
-          </thead>
-          <tbody>
-            {results.map((result, index) => {
-              return (
-                <tr key={index}>
-                  <td>{result.Title}</td>
-                  <td>{result.Year}</td>
-                  <td>
-                    <button
-                      className="nominate-button"
-                      onClick={() => handleWatchList(result)}
-                    >
-                      Add
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="nominate-button"
-                      onClick={() => handleLike(result)}
-                    >
-                      Like
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <Flex flexDirection="column">
+          {results.map((result, index) => {
+            return (
+              <MovieResult favourites={favourites} watchList={watchList} key={index} result={result} />
+            )
+          })}
+          {props.resultCount === 0 && results.length === 5 ? (
+            <Button onClick={() => props.handleShowMore()}>Show More</Button>
+          ) : (
+            props.resultCount === 1 && (
+              <Button onClick={() => props.handleShowLess()}>Show Less</Button>
+            )
+          )}
+        </Flex>
       )}
-      {props.resultCount === 0 ? (
-        <button className="more-button" onClick={() => props.handleShowMore()}>
-          Show More
-        </button>
-      ) : (
-        <button className="more-button" onClick={() => props.handleShowLess()}>
-          Show Less
-        </button>
-      )}
-    </div>
+    </Flex>
   );
 };
 
