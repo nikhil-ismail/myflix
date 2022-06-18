@@ -3,8 +3,6 @@ import axios from 'axios';
 import Search from '../Search/Search';
 import Results from '../Results/Results';
 import Nominations from '../Nominations/Nominations';
-import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
-import { db, auth } from "../../firebase-config";
 import { Flex } from "@chakra-ui/react";
 
 const Home = () => {
@@ -12,10 +10,6 @@ const Home = () => {
   const [results, setResults] = useState([]);
   const [query, setQuery] = useState('');
   const [resultCount, setResultCount] = useState(0);
-  const [favourites, setFavourites] = useState([]);
-  const [watchList, setWatchList] = useState([]);
-
-  const userEmail = auth.currentUser.email;
 
   const handleQueryChange = (text) => {
     setQuery(text);
@@ -32,29 +26,6 @@ const Home = () => {
   }
 
   useEffect(() => {
-    const getFavourites = async () => {
-      try {
-        const q = query(collection(db, "favourites"), where("email", "==", userEmail));
-        const data = await getDocs(q);
-        setFavourites(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      }
-      catch(err) {
-        //console.log(err);
-      }
-    };
-    const getWatchList = async () => {
-      try {
-        const q = query(collection(db, "watch-list"), where("email", "==", userEmail));
-        const data = await getDocs(q);
-        setWatchList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      }
-      catch(err) {
-        //console.log(err);
-      }
-    };
-    getFavourites();
-    getWatchList();
-
     axios.get(`http://www.omdbapi.com/?apikey=dffd1309&s=${query}`)
     .then(response => {
         if (response.data.Response === "True") {
@@ -87,7 +58,7 @@ const Home = () => {
           :
           <Flex width="55%" flexDirection="column" className="searching">
             <Search handleQueryChange={handleQueryChange} />
-            <Results favourites={favourites} watchList={watchList} query={query} results={results} resultCount={resultCount} handleShowLess={handleShowLess} handleShowMore={handleShowMore} />
+            <Results query={query} results={results} resultCount={resultCount} handleShowLess={handleShowLess} handleShowMore={handleShowMore} />
           </Flex>
         }
         <Nominations />

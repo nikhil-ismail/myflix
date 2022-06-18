@@ -6,11 +6,15 @@ import { auth, db } from "../../firebase-config";
 const MyList = (props) => {
 
     const { movie, favourites, watchList } = props;
+
     const [liked, setLiked] = useState(false);
     const [listed, setListed] = useState(false);
+
     const { isOpen, onOpen, onClose } = useDisclosure();
+
     const watchListCollectionRef = collection(db, "watch-list");
     const favouritesCollectionRef = collection(db, "favourites");
+    
     const userEmail = auth.currentUser.email;
 
     useEffect(() => {
@@ -86,7 +90,9 @@ const MyList = (props) => {
                 <Image width="100px" src={movie.movie.image} alt="movie" />
                 <Flex flexDirection="column" ml="20px">
                     <Heading fontSize="20px">{movie.movie.title}</Heading>
-                    <Text>{movie.movie.year} • {movie.movie.type}</Text>
+                    <Text>{movie.movie.year} •  
+                    {movie.movie.type === "series" ? " TV Series" :
+                    " " + movie.movie.type.charAt(0).toUpperCase() + movie.movie.type.slice(1)}</Text>
                 </Flex>
             </Flex>
 

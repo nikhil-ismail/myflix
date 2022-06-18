@@ -18,7 +18,7 @@ const Favourites = () => {
         setFavourites(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       }
       catch(err) {
-        //console.log(err);
+        console.log(err);
       }
     };
     const getWatchList = async () => {
