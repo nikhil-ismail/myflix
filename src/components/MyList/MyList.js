@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, useDisclosure, Button, Text, Flex, Image, Heading } from '@chakra-ui/react';
-import { doc, collection, deleteDoc, addDoc } from "firebase/firestore";
+import { collection, getDocs, query, where, doc, deleteDoc, addDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase-config";
 
 const MyList = (props) => {
 
-    const { movie, favourites, watchList } = props;
+    const { movie } = props;
 
     const [liked, setLiked] = useState(false);
     const [listed, setListed] = useState(false);
@@ -14,33 +14,50 @@ const MyList = (props) => {
 
     const watchListCollectionRef = collection(db, "watch-list");
     const favouritesCollectionRef = collection(db, "favourites");
-    
+
     const userEmail = auth.currentUser.email;
 
+    const getFavourites = async () => {
+        try {
+          const q = query(collection(db, "favourites"), where("email", "==", userEmail));
+          const data = await getDocs(q);
+          const favourites = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+          setLiked(favourites.find(item => item.movie.title === movie.movie.title && item.movie.year === movie.movie.year) ? true : false);
+        }
+        catch(err) {
+          console.log(err);
+        }
+    };
+    
+    const getWatchList = async () => {
+        try {
+          const q = query(collection(db, "watch-list"), where("email", "==", userEmail));
+          const data = await getDocs(q);
+          const watchList = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+          setListed(watchList.find(item => item.movie.title === movie.movie.title && item.movie.year === movie.movie.year) ? true : false);
+        }
+        catch(err) {
+          console.log(err);
+        }
+    };
+
     useEffect(() => {
-        for (let i = 0; i < favourites.length; i++) {
-            if (favourites[i].id === movie.id) {
-                setLiked(true);
-            }
-        }
-        for (let i = 0; i < watchList.length; i++) {
-            if (watchList[i].id === movie.id) {
-                setListed(true);
-            }
-        }
-    }, [liked, listed]);
+        getFavourites();
+        getWatchList();
+    }, []);
 
     const handleLike = async (film) => {
+        let movie = {
+            id: film.id,
+            image: film.image,
+            title: film.title,
+            type: film.type,
+            year: film.year,
+        };
         try {
-            let movie = {
-                id: film.id,
-                image: film.image,
-                title: film.title,
-                type: film.type,
-                year: film.year,
-            };
-            await addDoc(favouritesCollectionRef, { email: userEmail, movie: movie });
             setLiked(true);
+            await addDoc(favouritesCollectionRef, { email: userEmail, movie: movie });
+            getFavourites();
         }
         catch(err) {
             console.log(err);
@@ -49,8 +66,9 @@ const MyList = (props) => {
 
     const handleUnlike = async (movie) => {
         try {
-            await deleteDoc(doc(db, "favourites", movie.id));
             setLiked(false);
+            await deleteDoc(doc(db, "favourites", movie.id));
+            getFavourites();
         }
         catch(err) {
             console.log(err);
@@ -58,16 +76,17 @@ const MyList = (props) => {
     }
 
     const handleWatchList = async (film) => {
+        let movie = {
+            id: film.id,
+            image: film.image,
+            title: film.title,
+            type: film.type,
+            year: film.year,
+        };
         try {
-            let movie = {
-                id: film.id,
-                image: film.image,
-                title: film.title,
-                type: film.type,
-                year: film.year,
-            };
-            await addDoc(watchListCollectionRef, { email: userEmail, movie: movie });
             setListed(true);
+            await addDoc(watchListCollectionRef, { email: userEmail, movie: movie });
+            getWatchList();
         }
         catch(err) {
             console.log(err);
@@ -76,12 +95,18 @@ const MyList = (props) => {
     
     const handleRemoveWatch = async (movie) => {
         try {
-            await deleteDoc(doc(db, "watch-list", movie.id));
             setListed(false);
+            await deleteDoc(doc(db, "watch-list", movie.id));
+            getWatchList();
         }
         catch(err) {
             console.log(err);
         }
+    }
+
+    const handleClose = () => {
+        onClose();
+        props.handleUpdate();
     }
 
     return (
@@ -96,7 +121,7 @@ const MyList = (props) => {
                 </Flex>
             </Flex>
 
-            <Modal size={"lg"} onClose={onClose} isOpen={isOpen} isCentered>
+            <Modal size={"lg"} onClose={handleClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
                 <ModalHeader fontSize="26px">{movie.movie.title} ({movie.movie.year})</ModalHeader>
@@ -112,7 +137,7 @@ const MyList = (props) => {
                     }
                 </ModalBody>
                 <ModalFooter>
-                    <Button onClick={onClose}>Close</Button>
+                    <Button onClick={handleClose}>Close</Button>
                 </ModalFooter>
                 </ModalContent>
             </Modal>

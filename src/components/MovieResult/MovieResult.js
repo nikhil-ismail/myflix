@@ -9,7 +9,7 @@ const MovieResult = (props) => {
     /*
     BUGS in modal
     - delete doesn't work
-    - favourites/watch list will only get updated when you close the modal
+    - favourites/watch list will only get updated when you close the modal (internally for code)
     */
 
     const { result } = props;
@@ -75,9 +75,13 @@ const MovieResult = (props) => {
         }
     };
 
-    const handleRemoveWatch = async (movie) => {
+    const handleRemoveWatch = async (film) => {
         try {
             setListed(false);
+            const q = query(collection(db, "watch-list"), where("email", "==", userEmail));
+            const data = await getDocs(q);
+            const watchList = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+            let movie = watchList.find(item => item.movie.title === film.Title && item.movie.year === film.Year);
             await deleteDoc(doc(db, "watch-list", movie.id));
             getWatchList();
         }
@@ -104,9 +108,13 @@ const MovieResult = (props) => {
         }
     };
 
-    const handleUnlike = async (movie) => {
+    const handleUnlike = async (film) => {
         try {
             setLiked(false);
+            const q = query(collection(db, "favourites"), where("email", "==", userEmail));
+            const data = await getDocs(q);
+            const favourites = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+            let movie = favourites.find(item => item.movie.title === film.Title && item.movie.year === film.Year);
             await deleteDoc(doc(db, "favourites", movie.id));
             getFavourites();
         }

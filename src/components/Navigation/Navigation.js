@@ -17,10 +17,10 @@ const Navigation = (props) => {
 
   return (
       <Flex flexDirection="row" pl="30px" pt="20px" pb="20px" mb="30px" backgroundColor="#ff0015">
-          <Heading cursor="pointer" onClick={() => props.handleRouteChange('home')}>Movie Rank</Heading>
-          <Heading cursor="pointer" fontSize="26px" ml="35px" mt="7.5px" onClick={() => props.handleRouteChange('favourites')}>My Movies</Heading>
+          <Heading cursor="pointer" onClick={() => props.handleRouteChange('favourites')}>MyFlix</Heading>
+          <Heading cursor="pointer" fontSize="26px" ml="35px" mt="7.5px" onClick={() => props.handleRouteChange('home')}>Explore</Heading>
           <Heading cursor="pointer" fontSize="26px" ml="35px" mt="7.5px" onClick={() => props.handleRouteChange('friends')}>Friends</Heading>
-          <Heading cursor="pointer" fontSize="26px" ml="790px" mt="7.5px" onClick={logout}>Log Out</Heading>
+          <Heading cursor="pointer" fontSize="26px" ml="900px" mt="7.5px" onClick={logout}>Log Out</Heading>
       </Flex>
   );
 }
