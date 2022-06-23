@@ -6,6 +6,12 @@ import MyList from "../MyList/MyList";
 
 const Favourites = () => {
 
+  /*
+
+  - add search capability for favourites and watch list
+
+  */
+
   const [movieFavs, setMovieFavs] = useState([]);
   const [tvFavs, setTvFavs] = useState([]);
   const [movieWatch, setMovieWatch] = useState([]);
