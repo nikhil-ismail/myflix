@@ -12,7 +12,7 @@ const App = () => {
 
   const successfulLogin = () => {
     setAuthenticated(true);
-    handleRouteChange('home');
+    handleRouteChange('favourites');
   }
 
   const handleRouteChange = (route) => {

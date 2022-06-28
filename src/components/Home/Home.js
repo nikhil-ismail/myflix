@@ -53,11 +53,11 @@ const Home = () => {
           query === ""
           ?
           <Flex flexDirection="column" width="55%">
-            <Search handleQueryChange={handleQueryChange} />
+            <Search title="Movies or TV Shows" handleQueryChange={handleQueryChange} />
           </Flex>
           :
           <Flex width="55%" flexDirection="column" className="searching">
-            <Search handleQueryChange={handleQueryChange} />
+            <Search title="Movies or TV Shows" handleQueryChange={handleQueryChange} />
             <Results query={query} results={results} resultCount={resultCount} handleShowLess={handleShowLess} handleShowMore={handleShowMore} />
           </Flex>
         }

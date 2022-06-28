@@ -93,7 +93,7 @@ const Favourites = () => {
         <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="lightgray" flexDirection="column">
           <Heading fontSize="24px" mb="25px">Movies</Heading>
           {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieWatch.length === 0 ? (
-            <Text>You have not added any movies to your watch list yet!</Text>
+            <Text mb="25px">You have not added any movies to your watch list yet!</Text>
           ) : (
             movieWatch.map((watch, index) => {
               return (
@@ -103,7 +103,7 @@ const Favourites = () => {
           )}
           <Heading fontSize="24px" mb="25px">TV Shows</Heading>
           {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvWatch.length === 0 ? (
-            <Text>You have not added any tv shows to your watch list yet!</Text>
+            <Text mb="25px">You have not added any tv shows to your watch list yet!</Text>
           ) : (
             tvWatch.map((watch, index) => {
               return (

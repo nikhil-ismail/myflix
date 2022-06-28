@@ -11,7 +11,7 @@ const Search = (props) => {
   
   return (
     <Flex backgroundColor="lightgray" flexDirection="column" ml="30px" mr="30px" padding="25px" borderRadius="10px">
-        <Heading fontSize="26px" mb="15px">Search Movies or TV Shows</Heading>
+        <Heading fontSize="26px" mb="15px">Search {props.title}</Heading>
         <Input padding="10px" fontSize="15px" borderRadius="10px" borderWidth="1px" borderColor="black" type="text" placeholder="Search..." onChange={handleChange} />
     </Flex>
   );
