@@ -66,7 +66,7 @@ const Favourites = () => {
         <Flex borderRadius="10px" padding="25px" marginLeft="40px" backgroundColor="lightgray" flexDirection="column">
           <Heading fontSize="24px" mb="25px">Movies</Heading>
           {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieFavs.length === 0 ? (
-            <Text>You have not liked any movies yet!</Text>
+            <Text mb="25px">You have not liked any movies yet!</Text>
           ) : 
             (
             movieFavs.map((favourite, index) => {
@@ -77,7 +77,7 @@ const Favourites = () => {
           )}
           <Heading fontSize="24px" mb="25px">TV Shows</Heading>
           {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvFavs.length === 0 ? (
-            <Text>You have not liked any tv shows yet!</Text>
+            <Text mb="25px">You have not liked any tv shows yet!</Text>
           ) : 
             (
             tvFavs.map((favourite, index) => {
