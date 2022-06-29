@@ -5,8 +5,6 @@ import { db, auth } from "../../firebase-config";
 import FriendCard from "../FriendCard/FriendCard";
 
 /* BUGS
-- app breaks when you have no friends
-- logic breaks when there are no users left to follow
 - can't update following array (syntax error)
 */
 
@@ -30,9 +28,9 @@ const Friends = (props) => {
       const profile = toAdd.filter(user => user.email === userEmail);
       setMe(profile[0]);
       userId = profile[0].id;
-      const allUsers = profile[0].following.length !== 0 && toAdd.filter(user => profile[0].following.find(friend => friend !== user.email && user.email !== userEmail));
+      const allUsers = toAdd.filter(user => !profile[0].following.find(friend => friend === user.email) && user.email !== userEmail);
       setUsers(allUsers);
-      const amigos = profile[0].following.length !== 0 && toAdd.filter(user => profile[0].following.find(friend => friend === user.email));
+      const amigos = toAdd.filter(user => profile[0].following.find(friend => friend === user.email) && user.email !== userEmail);
       setFriends(amigos);
     }
     catch(err) {
