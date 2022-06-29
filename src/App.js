@@ -9,16 +9,17 @@ const App = () => {
 
   const [authenticated, setAuthenticated] = useState(false);
   const [endpoint, setEndpoint] = useState('home');
+  const [profie, setProfile] = useState({});
 
   const successfulLogin = () => {
     setAuthenticated(true);
     handleRouteChange('favourites');
   }
 
-  const handleRouteChange = (route) => {
+  const handleRouteChange = (route, user = {}) => {
     if (route === 'logout') {
-      setEndpoint('login');
       setAuthenticated(false);
+      setEndpoint('login');
     }
     else if (route === 'login') {
       setEndpoint('login');
@@ -35,6 +36,10 @@ const App = () => {
     else if (route === 'friends') {
       setEndpoint('friends');
     }
+    else if (route === 'friendProfile') {
+      setEndpoint('friendProfile');
+      setProfile(user);
+    }
   }
 
   return (
@@ -42,6 +47,7 @@ const App = () => {
       {authenticated === true ? (
         <Authenticated
           endpoint={endpoint}
+          profile={profie}
           handleRouteChange={handleRouteChange}
         />
       ) : 

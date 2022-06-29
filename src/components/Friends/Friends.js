@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Flex, Heading, Text } from "@chakra-ui/react";
-import { collection, getDocs, updateDoc, doc, arrayUnion, query, where } from "firebase/firestore";
+import { Flex, Heading, Text, Circle, Spinner } from "@chakra-ui/react";
+import { collection, getDocs, updateDoc, doc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
 import FriendCard from "../FriendCard/FriendCard";
-
-/* BUGS
-- can't update following array (syntax error)
-*/
 
 const Friends = (props) => {
 
@@ -14,12 +10,12 @@ const Friends = (props) => {
   const [friends, setFriends] = useState([]);
   const [me, setMe] = useState({});
   const [update, setUpdate] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  let userInitials = me.name && me.name.split(" ")[0][0] + me.name.split(" ")[1][0];
   const userEmail = auth.currentUser.email;
   let userId = "";
   const usersCollectionRef = collection(db, "users");
-  //const userRef = doc(db, "cities", userId);
-
 
   const getUsers = async () => {
     try {
@@ -28,10 +24,12 @@ const Friends = (props) => {
       const profile = toAdd.filter(user => user.email === userEmail);
       setMe(profile[0]);
       userId = profile[0].id;
+      userInitials = profile[0].name.split(" ")[0][0] + profile[0].name.split(" ")[1][0];
       const allUsers = toAdd.filter(user => !profile[0].following.find(friend => friend === user.email) && user.email !== userEmail);
       setUsers(allUsers);
       const amigos = toAdd.filter(user => profile[0].following.find(friend => friend === user.email) && user.email !== userEmail);
       setFriends(amigos);
+      setLoading(false);
     }
     catch(err) {
       console.log(err);
@@ -39,9 +37,9 @@ const Friends = (props) => {
   };
 
   const handleFollow =  async (user) => {
-    console.log("follow", user);
     try {
-      //await updateDoc(userRef, {following: arrayUnion(user.email)});
+      await updateDoc(doc(db, "users", me.id), {following: arrayUnion(user.email)});
+      setLoading(true);
       setUpdate(!update);
     }
     catch(err) {
@@ -50,8 +48,14 @@ const Friends = (props) => {
   }
 
   const handleUnfollow = async (user) => {
-    console.log("unfollow", user);
-    setUpdate(!update);
+    try {
+      await updateDoc(doc(db, "users", me.id), {following: arrayRemove(user.email)});
+      setLoading(true);
+      setUpdate(!update);
+    }
+    catch(err) {
+        console.log(err);
+    }
   }
 
   useEffect(() => {
@@ -63,38 +67,42 @@ const Friends = (props) => {
       <Flex flexDirection="column">
         <Heading fontSize="26px" mb="25px" ml="100px">My Profile</Heading>
         <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="lightgray" flexDirection="column">
-          <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="white" flexDirection="column">
+            {loading ?
+            <Spinner /> :
+            <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="white" flexDirection="column">
+            <Circle size='40px' bg='red' color='white'>{userInitials}</Circle>
               <Text>{me.name}</Text>
               <Text>{me.genres}</Text>
               <Text>{me.actors}</Text>
-          </Flex>
+            </Flex>
+            }
         </Flex>
       </Flex>
       <Flex flexDirection="column">
-        <Heading fontSize="26px" mb="25px" ml="100px">Follow Users</Heading>
+        <Heading fontSize="26px" mb="25px" ml="100px">My Friends</Heading>
         <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="lightgray" flexDirection="column">
-          {users.length === 0 ? (
-            <Text mt="25px" mb="25px">You have follwed all users!</Text>
+          {loading ? <Spinner /> : friends.length === 0 ? (
+            <Text mt="25px" mb="25px">You have not followed any friends yet!</Text>
           ) : 
             (
-            users.map((user, index) => {
+            friends.map((friend, index) => {
               return (
-                  <FriendCard handleFollow={handleFollow} handleUnfollow={handleUnfollow} following={false} friend={user} key={index} />
+                  <FriendCard handleRouteChange={props.handleRouteChange} handleFollow={handleFollow} handleUnfollow={handleUnfollow} following={true} friend={friend} key={index} />
               )
             })
           )}
         </Flex>
       </Flex>
       <Flex flexDirection="column">
-        <Heading fontSize="26px" mb="25px" ml="100px">My Friends</Heading>
+        <Heading fontSize="26px" mb="25px" ml="100px">Follow Users</Heading>
         <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="lightgray" flexDirection="column">
-          {friends.length === 0 ? (
-            <Text mt="25px" mb="25px">You have not followed any friends yet!</Text>
+          {loading ? <Spinner /> : users.length === 0 ? (
+            <Text mt="25px" mb="25px">You have follwed all users!</Text>
           ) : 
             (
-            friends.map((friend, index) => {
+            users.map((user, index) => {
               return (
-                  <FriendCard handleFollow={handleFollow} handleUnfollow={handleUnfollow} following={true} friend={friend} key={index} />
+                  <FriendCard handleFollow={handleFollow} handleUnfollow={handleUnfollow} following={false} friend={user} key={index} />
               )
             })
           )}
