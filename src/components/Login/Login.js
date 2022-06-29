@@ -22,11 +22,11 @@ const Login = (props) => {
   return (
     <Flex justifyContent="center" alignItems="center" flexDirection="column">
       <Heading>LOGIN</Heading>
-      <Flex>
+      <Flex flexDirection="column">
         <Text>Email</Text>
         <Input type="email" onChange={(event) => {setEmail(event.target.value)}} />
       </Flex>
-      <Flex>
+      <Flex flexDirection="column">
         <Text>Password</Text>
         <Input type="password" onChange={(event) => {setPassword(event.target.value)}} />
       </Flex>
