@@ -23,15 +23,16 @@ const Signup = (props) => {
     }
   }
 
-  const googleRegister = async () => {
-    try {
-      signInWithGoogle();
-      await addDoc(usersCollectionRef, { name: "", email: localStorage.getItem("email"), genres: "", actors: "", following: [] });
+  const googleRegister = () => {
+    signInWithGoogle().then(async (result) => {
+      const name = result.user.displayName;
+      const mail = result.user.email;
+      await addDoc(usersCollectionRef, { name: name, email: mail, genres: "", actors: "", following: [] });
       props.handleRouteChange('onboarding');
-    }
-    catch (error) {
-      console.log(error.message);
-    }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
  
   
