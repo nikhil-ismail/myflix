@@ -4,6 +4,7 @@ import Login from "./components/Login/Login";
 import Authenticated from "./components/Authenticated/Authenticated";
 import Signup from "./components/Signup/Signup";
 import { Flex } from "@chakra-ui/react";
+import Onboarding from "./components/Onboarding/Onboarding";
 
 const App = () => {
 
@@ -26,6 +27,9 @@ const App = () => {
     }
     else if (route === 'signup') {
       setEndpoint('signup');
+    }
+    else if (route === 'onboarding') {
+      setEndpoint('onboarding');
     }
     else if (route === 'home') {
       setEndpoint('home');
@@ -54,6 +58,10 @@ const App = () => {
       endpoint === "login" ?
       (
         <Login successfulLogin={successfulLogin} handleRouteChange={handleRouteChange} />
+      ) :
+      endpoint === "onboarding" ? 
+      (
+        <Onboarding successfulLogin={successfulLogin} handleRouteChange={handleRouteChange} />
       ) :
       (
         <Signup successfulLogin={successfulLogin} handleRouteChange={handleRouteChange} />

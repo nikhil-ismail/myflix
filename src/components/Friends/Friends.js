@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Flex, Heading, Text, Circle, Spinner } from "@chakra-ui/react";
+import { Flex, Heading, Text, Spinner } from "@chakra-ui/react";
 import { collection, getDocs, updateDoc, doc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
 import FriendCard from "../FriendCard/FriendCard";
@@ -12,9 +12,7 @@ const Friends = (props) => {
   const [update, setUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  let userInitials = me.name && me.name.split(" ")[0][0] + me.name.split(" ")[1][0];
   const userEmail = auth.currentUser.email;
-  let userId = "";
   const usersCollectionRef = collection(db, "users");
 
   const getUsers = async () => {
@@ -23,8 +21,6 @@ const Friends = (props) => {
       const toAdd = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
       const profile = toAdd.filter(user => user.email === userEmail);
       setMe(profile[0]);
-      userId = profile[0].id;
-      userInitials = profile[0].name.split(" ")[0][0] + profile[0].name.split(" ")[1][0];
       const allUsers = toAdd.filter(user => !profile[0].following.find(friend => friend === user.email) && user.email !== userEmail);
       setUsers(allUsers);
       const amigos = toAdd.filter(user => profile[0].following.find(friend => friend === user.email) && user.email !== userEmail);
@@ -64,20 +60,6 @@ const Friends = (props) => {
 
   return (
     <Flex flexDirection="row">
-      <Flex flexDirection="column">
-        <Heading fontSize="26px" mb="25px" ml="100px">My Profile</Heading>
-        <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="lightgray" flexDirection="column">
-            {loading ?
-            <Spinner /> :
-            <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="white" flexDirection="column">
-            <Circle size='40px' bg='red' color='white'>{userInitials}</Circle>
-              <Text>{me.name}</Text>
-              <Text>{me.genres}</Text>
-              <Text>{me.actors}</Text>
-            </Flex>
-            }
-        </Flex>
-      </Flex>
       <Flex flexDirection="column">
         <Heading fontSize="26px" mb="25px" ml="100px">My Friends</Heading>
         <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="lightgray" flexDirection="column">

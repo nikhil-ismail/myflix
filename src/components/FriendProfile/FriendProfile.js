@@ -58,10 +58,12 @@ const FriendProfile = (props) => {
       <Flex flexDirection="column">
         <Heading>{profile.name}</Heading>
         <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="lightgray" flexDirection="column">
-          <Circle size='40px' bg='red' color='white'>{profile.name && profile.name.split(" ")[0][0] + profile.name.split(" ")[1][0]}</Circle>
-          <Text>{profile.name}</Text>
-          <Text>{profile.genres}</Text>
-          <Text>{profile.actors}</Text>
+          <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="white" flexDirection="column">
+            <Circle size='40px' bg='red' color='white'>{profile.name && profile.name.split(" ")[0][0] + profile.name.split(" ")[1][0]}</Circle>
+            <Text>{profile.name}</Text>
+            <Text>{profile.genres}</Text>
+            <Text>{profile.actors}</Text>
+          </Flex>
         </Flex>
       </Flex>
       <Flex flexDirection="column">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
-import { Text, Flex, Heading, Spinner } from "@chakra-ui/react";
+import { Text, Flex, Heading, Spinner, Circle } from "@chakra-ui/react";
 import MyList from "../MyList/MyList";
 
 const Favourites = () => {
@@ -13,8 +13,11 @@ const Favourites = () => {
   const [update, setUpdate] = useState(false);
   const [favLoading, setFavLoading] = useState(true);
   const [watchLoading, setWatchLoading] = useState(true);
+  const [me, setMe] = useState({});
 
   const userEmail = auth.currentUser.email;
+  let userInitials = me.name && me.name.split(" ")[0][0] + me.name.split(" ")[1][0];
+  const usersCollectionRef = collection(db, "users");
 
   const getFavourites = async () => {
     try {
@@ -44,6 +47,19 @@ const Favourites = () => {
     }
   };
 
+  const getMe = async () => {
+    try {
+      const data = await getDocs(usersCollectionRef);
+      const toAdd = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      const profile = toAdd.filter(user => user.email === userEmail);
+      setMe(profile[0]);
+      userInitials = profile[0].name.split(" ")[0][0] + profile[0].name.split(" ")[1][0];
+    }
+    catch(err) {
+      console.log(err);
+    }
+  };
+
   const handleUpdate = () => {
     setUpdate(!update);
   }
@@ -51,10 +67,22 @@ const Favourites = () => {
   useEffect(() => {
     getFavourites();
     getWatchList();
+    getMe();
   }, [update]);
 
   return (
     <Flex flexDirection="row">
+      <Flex flexDirection="column">
+        <Heading fontSize="26px" mb="25px" ml="20px">My Profile</Heading>
+        <Flex borderRadius="10px" padding="25px" marginLeft="20px" backgroundColor="lightgray" flexDirection="column">
+            <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="white" flexDirection="column">
+              <Circle size='40px' bg='red' color='white'>{userInitials}</Circle>
+              <Text>{me.name}</Text>
+              <Text>{me.genres}</Text>
+              <Text>{me.actors}</Text>
+            </Flex>
+        </Flex>
+      </Flex>
       <Flex flexDirection="column">
         <Heading fontSize="26px" mb="25px" ml="150px">Favourites</Heading>
         <Flex borderRadius="10px" padding="25px" marginLeft="40px" backgroundColor="lightgray" flexDirection="column">

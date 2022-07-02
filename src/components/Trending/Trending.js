@@ -13,6 +13,8 @@ const Trending = (props) => {
         setResultCount(count);
     }
 
+    console.log(trending);
+
     return (
         <Flex flexDirection="column">
             <Heading ml="80px" fontSize="22px">Trending {props.title}</Heading>
