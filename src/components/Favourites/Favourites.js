@@ -16,7 +16,7 @@ const Favourites = () => {
   const [me, setMe] = useState({});
 
   const userEmail = auth.currentUser.email;
-  let userInitials = me.name && me.name.split(" ")[0][0] + me.name.split(" ")[1][0];
+  let userInitials = me.name && me.name.split(" ")[0][0].toUpperCase() + me.name.split(" ")[1][0].toUpperCase();
   const usersCollectionRef = collection(db, "users");
 
   const getFavourites = async () => {
@@ -73,19 +73,17 @@ const Favourites = () => {
   return (
     <Flex flexDirection="row">
       <Flex flexDirection="column">
-        <Heading fontSize="26px" mb="25px" ml="20px">My Profile</Heading>
-        <Flex borderRadius="10px" padding="25px" marginLeft="20px" backgroundColor="lightgray" flexDirection="column">
-            <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="white" flexDirection="column">
-              <Circle size='40px' bg='red' color='white'>{userInitials}</Circle>
-              <Text>{me.name}</Text>
-              <Text>{me.genres}</Text>
-              <Text>{me.actors}</Text>
-            </Flex>
+        <Heading color="#1BA098" fontSize="26px" mb="25px" ml="20px">My Profile</Heading>
+        <Flex borderRadius="10px" padding="25px" marginLeft="20px" backgroundColor="#DEB992" flexDirection="column">
+            <Circle size='40px' bg='#1BA098' color="#051622">{userInitials}</Circle>
+            <Text color="#051622">{me.name}</Text>
+            <Text color="#051622">{me.genres}</Text>
+            <Text color="#051622">{me.actors}</Text>
         </Flex>
       </Flex>
       <Flex flexDirection="column">
-        <Heading fontSize="26px" mb="25px" ml="150px">Favourites</Heading>
-        <Flex borderRadius="10px" padding="25px" marginLeft="40px" backgroundColor="lightgray" flexDirection="column">
+        <Heading color="#1BA098" fontSize="26px" mb="25px" ml="150px">Favourites</Heading>
+        <Flex borderRadius="10px" padding="25px" marginLeft="40px" backgroundColor="#DEB992" flexDirection="column">
           <Heading fontSize="24px" mb="25px">Movies</Heading>
           {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieFavs.length === 0 ? (
             <Text mb="25px">You have not liked any movies yet!</Text>
@@ -111,8 +109,8 @@ const Favourites = () => {
         </Flex>
       </Flex>
       <Flex flexDirection="column">
-        <Heading fontSize="26px" mb="25px" ml="150px">My Watch List</Heading>
-        <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="lightgray" flexDirection="column">
+        <Heading color="#1BA098" fontSize="26px" mb="25px" ml="150px">My Watch List</Heading>
+        <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="#DEB992" flexDirection="column">
           <Heading fontSize="24px" mb="25px">Movies</Heading>
           {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieWatch.length === 0 ? (
             <Text mb="25px">You have not added any movies to your watch list yet!</Text>

@@ -7,7 +7,7 @@ const FriendCard = (props) => {
 
     return (
         <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="white" flexDirection="column">
-            <Circle size='40px' bg='red' color='white'>{friend.name.split(" ")[0][0] + friend.name.split(" ")[1][0]}</Circle>
+            <Circle size='40px' bg='#1BA098' color="#051622">{friend.name.split(" ")[0][0] + friend.name.split(" ")[1][0]}</Circle>
             <Text>{friend.name}</Text>
             <Text>{friend.genres}</Text>
             <Text>{friend.actors}</Text>

@@ -15,12 +15,12 @@ const Trending = (props) => {
 
     return (
         <Flex flexDirection="column">
-            <Heading ml="80px" fontSize="22px">Trending {props.title}</Heading>
-            <Flex backgroundColor="lightgray" flexDirection="column" mt="15px" ml="30px" mr="30px" padding="20px" borderRadius="10px">
+            <Heading color="#1BA098" ml="80px" fontSize="22px">Trending {props.title}</Heading>
+            <Flex backgroundColor="#DEB992" flexDirection="column" mt="15px" ml="30px" mr="30px" padding="20px" borderRadius="10px">
                 {
                     props.loading ? <Spinner /> : trending.length === 0
                     ?
-                    <Text mt="5px">There is nothing trending at the moment!</Text>
+                    <Text color="#051622" mt="5px">There is nothing trending at the moment!</Text>
                     :
                     trending.slice(0,resultCount).map((item, index) => {
                         return (

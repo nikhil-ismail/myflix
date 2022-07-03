@@ -55,16 +55,16 @@ const App = () => {
           handleRouteChange={handleRouteChange}
         />
       ) : 
-      endpoint === "login" ?
+      endpoint === "signup" ?
       (
-        <Login successfulLogin={successfulLogin} handleRouteChange={handleRouteChange} />
+        <Signup successfulLogin={successfulLogin} handleRouteChange={handleRouteChange} />
       ) :
       endpoint === "onboarding" ? 
       (
         <Onboarding successfulLogin={successfulLogin} handleRouteChange={handleRouteChange} />
       ) :
       (
-        <Signup successfulLogin={successfulLogin} handleRouteChange={handleRouteChange} />
+        <Login successfulLogin={successfulLogin} handleRouteChange={handleRouteChange} />
       )
       }
     </Flex>

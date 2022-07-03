@@ -56,19 +56,17 @@ const FriendProfile = (props) => {
   return (
     <Flex flexDirection="row">
       <Flex flexDirection="column">
-        <Heading>{profile.name}</Heading>
-        <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="lightgray" flexDirection="column">
-          <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="white" flexDirection="column">
-            <Circle size='40px' bg='red' color='white'>{profile.name && profile.name.split(" ")[0][0] + profile.name.split(" ")[1][0]}</Circle>
-            <Text>{profile.name}</Text>
-            <Text>{profile.genres}</Text>
-            <Text>{profile.actors}</Text>
-          </Flex>
+        <Heading color="#1BA098">{profile.name}</Heading>
+        <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="#DEB992" flexDirection="column">
+          <Circle size='40px' bg='#1BA098' color='#051622'>{profile.name && profile.name.split(" ")[0][0] + profile.name.split(" ")[1][0]}</Circle>
+          <Text>{profile.name}</Text>
+          <Text>{profile.genres}</Text>
+          <Text>{profile.actors}</Text>
         </Flex>
       </Flex>
       <Flex flexDirection="column">
-        <Heading fontSize="26px" mb="25px" ml="150px">{profile.name && profile.name.split(" ")[0]}'s Favourites</Heading>
-        <Flex borderRadius="10px" padding="25px" marginLeft="40px" backgroundColor="lightgray" flexDirection="column">
+        <Heading color="#1BA098" fontSize="26px" mb="25px" ml="150px">{profile.name && profile.name.split(" ")[0]}'s Favourites</Heading>
+        <Flex borderRadius="10px" padding="25px" marginLeft="40px" backgroundColor="#DEB992" flexDirection="column">
           <Heading fontSize="24px" mb="25px">Movies</Heading>
           {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieFavs.length === 0 ? (
             <Text mb="25px">{profile.name.split(" ")[0]} has not liked any movies yet!</Text>
@@ -94,8 +92,8 @@ const FriendProfile = (props) => {
         </Flex>
       </Flex>
       <Flex flexDirection="column">
-        <Heading fontSize="26px" mb="25px" ml="150px">{profile.name && profile.name.split(" ")[0]}'s  Watch List</Heading>
-        <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="lightgray" flexDirection="column">
+        <Heading color="#1BA098" fontSize="26px" mb="25px" ml="150px">{profile.name && profile.name.split(" ")[0]}'s  Watch List</Heading>
+        <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="#DEB992" flexDirection="column">
           <Heading fontSize="24px" mb="25px">Movies</Heading>
           {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieWatch.length === 0 ? (
             <Text mb="25px">{profile.name.split(" ")[0]} has not added any movies to their watch list yet!</Text>

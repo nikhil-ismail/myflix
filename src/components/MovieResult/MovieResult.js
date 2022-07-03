@@ -128,8 +128,8 @@ const MovieResult = (props) => {
             <Flex cursor="pointer" flexDirection="row" mb="25px" onClick={onOpen}>
                 <Image width="100px" src={result.Poster} alt="movie" />
                 <Flex flexDirection="column" ml="20px">
-                    <Heading fontSize="20px">{result.Title}</Heading>
-                    <Text>{result.Year} •  
+                    <Heading color="#051622" fontSize="20px">{result.Title}</Heading>
+                    <Text color="#051622">{result.Year} •  
                     {result.Type === "series" ? " TV Series" :
                     " " + result.Type.charAt(0).toUpperCase() + result.Type.slice(1)}</Text>
                 </Flex>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, useDisclosure, Button, Text, Flex, Image, Heading } from '@chakra-ui/react';
+import { Divider, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, useDisclosure, Button, Text, Flex, Image, Heading } from '@chakra-ui/react';
 import { collection, getDocs, query, where, doc, deleteDoc, addDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase-config";
 
@@ -114,8 +114,8 @@ const MyList = (props) => {
             <Flex cursor="pointer" flexDirection="row" mb="25px" onClick={onOpen}>
                 <Image width="100px" src={movie.movie.image} alt="movie" />
                 <Flex flexDirection="column" ml="20px">
-                    <Heading fontSize="20px">{movie.movie.title}</Heading>
-                    <Text>{movie.movie.year} •  
+                    <Heading color="#051622" fontSize="20px">{movie.movie.title}</Heading>
+                    <Text color="#051622">{movie.movie.year} •  
                     {movie.movie.type === "series" ? " TV Series" :
                     " " + movie.movie.type.charAt(0).toUpperCase() + movie.movie.type.slice(1)}</Text>
                 </Flex>

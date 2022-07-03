@@ -6,8 +6,8 @@ const Results = (props) => {
   const { query, results } = props;
 
   return (
-    <Flex backgroundColor="lightgray" flexDirection="column" mt="20px" ml="30px" padding="25px" borderRadius="10px">
-      <Heading fontSize="26px" mb="25px">Results for "{query}"</Heading>
+    <Flex backgroundColor="#DEB992" flexDirection="column" mt="20px" ml="30px" padding="25px" borderRadius="10px">
+      <Heading color="#051622" fontSize="26px" mb="25px">Results for "{query}"</Heading>
       {results.length === 0 && props.resultCount === 0 ? (
         <Text>Your search did not have any matches.</Text>
       ) : (
