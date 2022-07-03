@@ -42,18 +42,18 @@ const Login = (props) => {
 
   return (
     <Flex justifyContent="center" alignItems="center" flexDirection="column">
-      <Heading>LOGIN</Heading>
+      <Heading color="#1BA098">LOGIN</Heading>
       <Flex flexDirection="column">
-        <Text>Email</Text>
-        <Input type="email" onChange={(event) => {setEmail(event.target.value)}} />
+        <Text color="#1BA098">Email</Text>
+        <Input backgroundColor="#DEB992" type="email" onChange={(event) => {setEmail(event.target.value)}} />
       </Flex>
       <Flex flexDirection="column">
-        <Text>Password</Text>
-        <Input type="password" onChange={(event) => {setPassword(event.target.value)}} />
+        <Text color="#1BA098">Password</Text>
+        <Input backgroundColor="#DEB992" type="password" onChange={(event) => {setPassword(event.target.value)}} />
       </Flex>
-      <Button mb="10px" mt="10px" onClick={googleLogin}>Log in with Google</Button>
-      <Button onClick={login}>Log In</Button>
-      <Text cursor="pointer" onClick={() => props.handleRouteChange('signup')}>Not a user? Sign up now!</Text>
+      <Button backgroundColor="#DEB992" mb="10px" mt="10px" onClick={googleLogin}>Log in with Google</Button>
+      <Button backgroundColor="#DEB992" onClick={login}>Log In</Button>
+      <Text color="#DEB992" cursor="pointer" onClick={() => props.handleRouteChange('signup')}>Not a user? Sign up now!</Text>
     </Flex>
   );
 };

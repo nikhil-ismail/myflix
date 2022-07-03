@@ -62,14 +62,14 @@ const Friends = (props) => {
     <Flex flexDirection="row">
       <Flex flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px" ml="100px">My Friends</Heading>
-        <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="#DEB992" flexDirection="column">
+        <Flex borderRadius="10px" marginLeft="60px" flexDirection="column">
           {loading ? <Spinner /> : friends.length === 0 ? (
             <Text mt="25px" mb="25px">You have not followed any friends yet!</Text>
           ) : 
             (
             friends.map((friend, index) => {
               return (
-                  <FriendCard handleRouteChange={props.handleRouteChange} handleFollow={handleFollow} handleUnfollow={handleUnfollow} following={true} friend={friend} key={index} />
+                  <FriendCard loading={loading} handleRouteChange={props.handleRouteChange} handleFollow={handleFollow} handleUnfollow={handleUnfollow} following={true} friend={friend} key={index} />
               )
             })
           )}
@@ -77,14 +77,14 @@ const Friends = (props) => {
       </Flex>
       <Flex flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px" ml="100px">Follow Users</Heading>
-        <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="#DEB992" flexDirection="column">
+        <Flex borderRadius="10px" marginLeft="60px" flexDirection="column">
           {loading ? <Spinner /> : users.length === 0 ? (
             <Text mt="25px" mb="25px">You have follwed all users!</Text>
           ) : 
             (
             users.map((user, index) => {
               return (
-                  <FriendCard handleFollow={handleFollow} handleUnfollow={handleUnfollow} following={false} friend={user} key={index} />
+                  <FriendCard loading={loading} handleFollow={handleFollow} handleUnfollow={handleUnfollow} following={false} friend={user} key={index} />
               )
             })
           )}

@@ -33,9 +33,23 @@ const Home = () => {
       const movieWatch = watchList.filter(item => item.movie.type === "movie");
       const tvWatch = watchList.filter(item => item.movie.type === "series");
 
-      setTrendingMovies(movieFavs.concat(movieWatch));
+      /*for (let i = 0; i < movies.lenght; i++) {
+        if (!trendingMovies.find(item => item.movie === movies[i].movie)) {
+          console.log("HEREEEEE")
+          setTrendingMovies(trendingMovies.push(movies[i]));
+        }
+      }*/
+      const movies = movieFavs.concat(movieWatch);
+      setTrendingMovies(movies);
       setMovieLoading(false);
-      setTrendingShows(tvFavs.concat(tvWatch));
+      
+      /*for (let i = 0; i < shows.lenght; i++) {
+        if (!trendingShows.find(item => item.movie === shows[i].movie)) {
+          setTrendingShows(trendingShows.push(shows[i]));
+        }
+      }*/
+      const shows = tvFavs.concat(tvWatch);
+      setTrendingShows(shows);
       setTvLoading(false); 
     }
     catch(err) {
