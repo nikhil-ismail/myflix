@@ -14,6 +14,8 @@ const Home = () => {
   const [resultCount, setResultCount] = useState(0);
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [trendingShows, setTrendingShows] = useState([]);
+  const [movieLoading, setMovieLoading] = useState(true);
+  const [tvLoading, setTvLoading] = useState(true);
 
   const userEmail = auth.currentUser.email;
 
@@ -32,7 +34,9 @@ const Home = () => {
       const tvWatch = watchList.filter(item => item.movie.type === "series");
 
       setTrendingMovies(movieFavs.concat(movieWatch));
-      setTrendingShows(tvFavs.concat(tvWatch)); 
+      setMovieLoading(false);
+      setTrendingShows(tvFavs.concat(tvWatch));
+      setTvLoading(false); 
     }
     catch(err) {
       console.log(err);
@@ -74,7 +78,6 @@ const Home = () => {
         console.log(err);
     })
     getTrending();
-    console.log("data-------", trendingMovies);  
   }, [searchQuery, resultCount])
 
   return (
@@ -92,8 +95,8 @@ const Home = () => {
             <Results query={searchQuery} results={results} resultCount={resultCount} handleShowLess={handleShowLess} handleShowMore={handleShowMore} />
           </Flex>
         }
-        <Trending title="Movies" trending={trendingMovies} />
-        <Trending title="Shows" trending={trendingShows} />
+        <Trending loading={movieLoading} title="Movies" trending={trendingMovies} />
+        <Trending loading={tvLoading} title="Shows" trending={trendingShows} />
       </Flex>
     </Flex>
   );

@@ -35,7 +35,6 @@ const Signup = (props) => {
     });
   }
  
-  
   return (
     <Flex>
       <Flex justifyContent="center" alignItems="center" flexDirection="column">

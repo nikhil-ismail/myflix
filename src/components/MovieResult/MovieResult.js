@@ -135,7 +135,7 @@ const MovieResult = (props) => {
                 </Flex>
             </Flex>
 
-            <Modal size={"lg"} onClose={onClose} isOpen={isOpen} isCentered>
+            <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
                 <ModalHeader fontSize="26px">{result.Title} ({result.Year})</ModalHeader>
