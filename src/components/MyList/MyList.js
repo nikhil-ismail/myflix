@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, useDisclosure, Button, Text, Flex, Image, Heading } from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, useDisclosure, Button, Text, Flex, Image, Heading } from '@chakra-ui/react';
 import { collection, getDocs, query, where, doc, deleteDoc, addDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase-config";
+import axios from 'axios';
 
 const MyList = (props) => {
 
@@ -9,6 +10,7 @@ const MyList = (props) => {
 
     const [liked, setLiked] = useState(false);
     const [listed, setListed] = useState(false);
+    let movieDetails = {};
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -42,6 +44,20 @@ const MyList = (props) => {
     };
 
     useEffect(() => {
+        axios.get(`http://www.omdbapi.com/?apikey=dffd1309&i=${movie.movie.id}`)
+        .then(response => {
+            if (response.data.Response === "True") {
+                const data = response.data;
+                movieDetails = data;
+                console.log(movieDetails);
+            }
+            else {
+                console.log(response);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        })
         getFavourites();
         getWatchList();
     }, []);
@@ -111,34 +127,49 @@ const MyList = (props) => {
 
     return (
         <Flex>
-            <Flex _hover={{ boxShadow:'dark-lg', rounded:'md', borderRadius: '10px'}} padding="5px" mt="10px" mb="5px" height="300px" width="175px" cursor="pointer" flexDirection="column" onClick={onOpen}>
+            <Flex _hover={{ boxShadow:'dark-lg', rounded:'md', borderRadius: '10px'}} padding="5px" mt="10px" mb="5px" height="300px" width="150px" cursor="pointer" flexDirection="column" onClick={onOpen}>
                 <Image borderRadius="10px" height="190px" width="125px" src={movie.movie.image} alt="movie" />
                 <Flex width="140px" mt="10px" flexDirection="column">
                     <Heading color="#051622" fontSize="20px">{movie.movie.title.length > 20 ? movie.movie.title.substring(0, 21) + "..." : movie.movie.title}</Heading>
-                    <Text color="#051622">{movie.movie.year} •  
+                    <Text mt="5px" color="#051622">{movie.movie.year} •  
                     {movie.movie.type === "series" ? " TV Series" :
                     " " + movie.movie.type.charAt(0).toUpperCase() + movie.movie.type.slice(1)}</Text>
                 </Flex>
             </Flex>
 
-            <Modal size={"lg"} onClose={handleClose} isOpen={isOpen} isCentered>
+            <Modal size={"2xl"} onClose={handleClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                <ModalHeader fontSize="26px">{movie.movie.title} ({movie.movie.year})</ModalHeader>
-                <ModalBody>
-                    <Image width="250px" src={movie.movie.image} alt="movie" />
-                    {listed ?
-                    <Button mt="20px" mr="20px" onClick={() => handleRemoveWatch(movie)}>Remove from Watch List</Button> :
-                    <Button mt="20px" mr="20px" onClick={() => handleWatchList(movie.movie)}>Add to Watch List</Button>
-                    }
-                    {liked ?
-                    <Button mt="20px" onClick={() => handleUnlike(movie)}>Unlike</Button> :
-                    <Button mt="20px" onClick={() => handleLike(movie.movie)}>Like</Button>
-                    }
-                </ModalBody>
-                <ModalFooter>
-                    <Button onClick={handleClose}>Close</Button>
-                </ModalFooter>
+                    <ModalHeader fontSize="26px">{movie.movie.title} ({movie.movie.year})</ModalHeader>
+                    <ModalBody>
+                        <Flex flexDirection="column">
+                            <Flex mb="15px" flexDirection="row">
+                                <Heading>{movieDetails.Rated}</Heading>
+                                <Text>IMDB Rating: {movieDetails.imdbRating ? movieDetails.imdbRating : "N/A"}</Text>
+                                <Text>{movieDetails.Runtime}</Text>
+                            </Flex>
+                            <Flex flexDirection="row">
+                                <Image borderRadius="10px" width="275px" src={movie.movie.image} alt="movie" />
+                                <Flex ml="20px" flexDirection="column">
+                                    <Text>Genre: {movieDetails.Genre}</Text>
+                                    <Text>Cast: {movieDetails.Actors}</Text>
+                                    <Text>Director: {movieDetails.Director}</Text>
+                                    <Text>Summary: {movieDetails.Plot}</Text>
+                                    <Text>Released: {movieDetails.Released}</Text>
+                                </Flex>
+                            </Flex>
+                            <Flex flexDirection="row">
+                                {listed ?
+                                <Button mb="25px" mt="25px" mr="20px" onClick={() => handleRemoveWatch(movie)}>Remove from Watch List</Button> :
+                                <Button mb="25px" mt="25px" mr="20px" onClick={() => handleWatchList(movie.movie)}>Add to Watch List</Button>
+                                }
+                                {liked ?
+                                <Button mb="25px" mt="25px" onClick={() => handleUnlike(movie)}>Unlike</Button> :
+                                <Button mb="25px" mt="25px" onClick={() => handleLike(movie.movie)}>Like</Button>
+                                }
+                            </Flex>
+                        </Flex>
+                    </ModalBody>
                 </ModalContent>
             </Modal>
         </Flex>

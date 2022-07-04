@@ -24,7 +24,7 @@ const Trending = (props) => {
                     <Text color="#051622" mt="5px">There is nothing trending at the moment!</Text>
                     :
                     <HorizontalScroll>
-                    {trending.map((item, index) => {
+                    {trending.slice(0,30).map((item, index) => {
                     return (
                         <MyList key={index} movie={item} />
                     )

@@ -17,13 +17,12 @@ const Results = (props) => {
               <MovieResult key={index} result={result} />
             )
           })}
-          {props.resultCount === 0 && results.length === 5 ? (
+          {props.resultCount === 1 ? (
             <Button onClick={() => props.handleShowMore()}>Show More</Button>
           ) : (
-            props.resultCount === 1 && (
               <Button onClick={() => props.handleShowLess()}>Show Less</Button>
             )
-          )}
+          }
         </Flex>
       )}
     </Flex>

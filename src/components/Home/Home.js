@@ -33,21 +33,10 @@ const Home = () => {
       const movieWatch = watchList.filter(item => item.movie.type === "movie");
       const tvWatch = watchList.filter(item => item.movie.type === "series");
 
-      /*for (let i = 0; i < movies.lenght; i++) {
-        if (!trendingMovies.find(item => item.movie === movies[i].movie)) {
-          console.log("HEREEEEE")
-          setTrendingMovies(trendingMovies.push(movies[i]));
-        }
-      }*/
       const movies = movieFavs.concat(movieWatch);
       setTrendingMovies(movies);
       setMovieLoading(false);
       
-      /*for (let i = 0; i < shows.lenght; i++) {
-        if (!trendingShows.find(item => item.movie === shows[i].movie)) {
-          setTrendingShows(trendingShows.push(shows[i]));
-        }
-      }*/
       const shows = tvFavs.concat(tvWatch);
       setTrendingShows(shows);
       setTvLoading(false); 
@@ -77,10 +66,10 @@ const Home = () => {
     .then(response => {
         if (response.data.Response === "True") {
           if (resultCount === 1) {
-            setResults(response.data.Search.slice(0,10));
+            setResults(response.data.Search.slice(0,3));
           }
           else {
-            setResults(response.data.Search.slice(0,5));
+            setResults(response.data.Search.slice(0,6));
           }
         }
         else {
