@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Text, Heading, Flex, Circle, Spinner } from "@chakra-ui/react";
+import { Text, Heading, Flex, Circle, Spinner, Center, Divider } from "@chakra-ui/react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import MyList from "../MyList/MyList";
+import ProfileTag from "../ProfileTag/ProfileTag";
 
 const FriendProfile = (props) => {
 
@@ -15,6 +16,18 @@ const FriendProfile = (props) => {
   const [update, setUpdate] = useState(false);
   const [favLoading, setFavLoading] = useState(true);
   const [watchLoading, setWatchLoading] = useState(true);
+
+  let splitGenres = profile.genres ? profile.genres.split(" ") : [];
+  let splitActors = profile.actors ? profile.actors.split(" ") : [];
+  let fullActors = [];
+
+  for (let i = 0; i < splitActors.length - 1; i = i + 2) {
+      let data = splitActors.slice(i, i + 2).join(" ");
+      data = data.split(" ");
+      let first = data[0][0].toUpperCase() + data[0].substring(1, data[0].length) + " ";
+      let last = data[1][0].toUpperCase() + data[1].substring(1, data[1].length);
+      fullActors.push(first.concat(last));
+  }
 
   const getFavourites = async () => {
     try {
@@ -54,66 +67,97 @@ const FriendProfile = (props) => {
   }, []);
 
   return (
-    <Flex flexDirection="row">
-      <Flex flexDirection="column">
-        <Heading color="#1BA098">{profile.name}</Heading>
+    <Flex pb="100%" flexDirection="row">
+      <Flex width="450px" pl="30px" pt="55px" flexDirection="column">
         <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="#DEB992" flexDirection="column">
-          <Circle size='40px' bg='#1BA098' color='#051622'>{profile.name && profile.name.split(" ")[0][0] + profile.name.split(" ")[1][0]}</Circle>
-          <Text>{profile.name}</Text>
-          <Text>{profile.genres}</Text>
-          <Text>{profile.actors}</Text>
+          <Flex flexDirection="column">
+            <Flex flexDirection="row">
+              <Circle size='50px' bg='#1BA098' color="#051622">{profile.name && profile.name.split(" ")[0][0] + profile.name.split(" ")[1][0]}</Circle>
+              <Text fontSize="20px" fontWeight="bold" pr="15px" mt="10px" ml="10px" color="#051622">{profile.name}</Text>
+            </Flex>
+            <Flex flexDirection="row" width="100%">
+              <Text mt="20px" mr="15px" fontWeight="bold">Genres</Text>
+              {splitGenres && splitGenres.map((genre, index) => {
+                return (
+                  <ProfileTag key={index} value={genre} />
+                )
+              })}
+            </Flex>
+            <Flex flexDirection="row" width="100%">
+              <Text mt="20px" mr="15px" fontWeight="bold">Actors</Text>
+              {fullActors && fullActors.map((actor, index) => {
+                return (
+                  <ProfileTag key={index} value={actor} />
+                )
+              })}
+            </Flex>
+          </Flex>
         </Flex>
       </Flex>
-      <Flex flexDirection="column">
-        <Heading color="#1BA098" fontSize="26px" mb="25px" ml="150px">{profile.name && profile.name.split(" ")[0]}'s Favourites</Heading>
-        <Flex borderRadius="10px" padding="25px" marginLeft="40px" backgroundColor="#DEB992" flexDirection="column">
-          <Heading fontSize="24px" mb="25px">Movies</Heading>
-          {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieFavs.length === 0 ? (
-            <Text mb="25px">{profile.name.split(" ")[0]} has not liked any movies yet!</Text>
-          ) : 
-            (
-            movieFavs.map((favourite, index) => {
-              return (
-                  <MyList handleUpdate={handleUpdate} key={index} movie={favourite} />
-              )
-            })
-          )}
-          <Heading fontSize="24px" mb="25px">TV Shows</Heading>
-          {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvFavs.length === 0 ? (
-            <Text mb="25px">{profile.name.split(" ")[0]} has not liked any tv shows yet!</Text>
-          ) : 
-            (
-            tvFavs.map((favourite, index) => {
-              return (
-                  <MyList handleUpdate={handleUpdate} key={index} movie={favourite} />
-              )
-            })
-          )}
+      <Flex width="400px" ml="30px" flexDirection="column">
+        <Heading color="#1BA098" fontSize="26px" mb="25px">{profile.name && profile.name.split(" ")[0]}'s Favourites</Heading>
+        <Flex borderRadius="10px" padding="25px" backgroundColor="#DEB992" flexDirection="row">
+          <Flex flexDirection="column">
+            <Heading fontSize="24px" mb="25px">Movies</Heading>
+            {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieFavs.length === 0 ? (
+              <Text mb="25px">{profile.name.split(" ")[0]} has not liked any movies yet!</Text>
+            ) : 
+              (
+              movieFavs.map((favourite, index) => {
+                return (
+                    <MyList handleUpdate={handleUpdate} key={index} movie={favourite} />
+                )
+              })
+            )}
+          </Flex>
+          <Center pr="30px" height='100%'>
+            <Divider orientation='vertical' />
+          </Center>
+          <Flex flexDirection="column">
+            <Heading fontSize="24px" mb="25px">TV Shows</Heading>
+            {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvFavs.length === 0 ? (
+              <Text mb="25px">{profile.name.split(" ")[0]} has not liked any tv shows yet!</Text>
+            ) : 
+              (
+              tvFavs.map((favourite, index) => {
+                return (
+                    <MyList handleUpdate={handleUpdate} key={index} movie={favourite} />
+                )
+              })
+            )}
+          </Flex>
         </Flex>
       </Flex>
-      <Flex flexDirection="column">
-        <Heading color="#1BA098" fontSize="26px" mb="25px" ml="150px">{profile.name && profile.name.split(" ")[0]}'s  Watch List</Heading>
-        <Flex borderRadius="10px" padding="25px" marginLeft="60px" backgroundColor="#DEB992" flexDirection="column">
-          <Heading fontSize="24px" mb="25px">Movies</Heading>
-          {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieWatch.length === 0 ? (
-            <Text mb="25px">{profile.name.split(" ")[0]} has not added any movies to their watch list yet!</Text>
-          ) : (
-            movieWatch.map((watch, index) => {
-              return (
-                <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
-              )
-            })
-          )}
-          <Heading fontSize="24px" mb="25px">TV Shows</Heading>
-          {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvWatch.length === 0 ? (
-            <Text mb="25px">{profile.name.split(" ")[0]} has not added any tv shows to their watch list yet!</Text>
-          ) : (
-            tvWatch.map((watch, index) => {
-              return (
-                <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
-              )
-            })
-          )}
+      <Flex width="400px" ml="30px" flexDirection="column">
+        <Heading color="#1BA098" fontSize="26px" mb="25px">{profile.name && profile.name.split(" ")[0]}'s  Watch List</Heading>
+        <Flex borderRadius="10px" padding="25px" backgroundColor="#DEB992" flexDirection="row">
+          <Flex flexDirection="column">
+            <Heading fontSize="24px" mb="25px">Movies</Heading>
+            {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieWatch.length === 0 ? (
+              <Text mb="25px">{profile.name.split(" ")[0]} has not added any movies to their watch list yet!</Text>
+            ) : (
+              movieWatch.map((watch, index) => {
+                return (
+                  <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
+                )
+              })
+            )}
+          </Flex>
+          <Center pr="30px" height='100%'>
+            <Divider orientation='vertical' />
+          </Center>
+          <Flex flexDirection="column">
+            <Heading fontSize="24px" mb="25px">TV Shows</Heading>
+            {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvWatch.length === 0 ? (
+              <Text mb="25px">{profile.name.split(" ")[0]} has not added any tv shows to their watch list yet!</Text>
+            ) : (
+              tvWatch.map((watch, index) => {
+                return (
+                  <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
+                )
+              })
+            )}
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

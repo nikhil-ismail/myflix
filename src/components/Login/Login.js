@@ -41,7 +41,7 @@ const Login = (props) => {
   }
 
   return (
-    <Flex justifyContent="center" alignItems="center" flexDirection="column">
+    <Flex pt="30px" pl="30px" pb="100%" justifyContent="center" alignItems="center" flexDirection="column">
       <Heading color="#1BA098">LOGIN</Heading>
       <Flex flexDirection="column">
         <Text color="#1BA098">Email</Text>
@@ -53,7 +53,7 @@ const Login = (props) => {
       </Flex>
       <Button backgroundColor="#DEB992" mb="10px" mt="10px" onClick={googleLogin}>Log in with Google</Button>
       <Button backgroundColor="#DEB992" onClick={login}>Log In</Button>
-      <Text color="#DEB992" cursor="pointer" onClick={() => props.handleRouteChange('signup')}>Not a user? Sign up now!</Text>
+      <Text color="#1BA098" cursor="pointer" onClick={() => props.handleRouteChange('signup')}>Not a user? Sign up now!</Text>
     </Flex>
   );
 };

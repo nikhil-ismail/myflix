@@ -100,17 +100,19 @@ const Home = () => {
         {
           searchQuery === ""
           ?
-          <Flex flexDirection="column" width="55%">
+          <Flex width="500px" flexDirection="column">
             <Search title="Movies or TV Shows" handleQueryChange={handleQueryChange} />
           </Flex>
           :
-          <Flex width="55%" flexDirection="column" className="searching">
+          <Flex width="500px" flexDirection="column" className="searching">
             <Search title="Movies or TV Shows" handleQueryChange={handleQueryChange} />
             <Results query={searchQuery} results={results} resultCount={resultCount} handleShowLess={handleShowLess} handleShowMore={handleShowMore} />
           </Flex>
         }
-        <Trending loading={movieLoading} title="Movies" trending={trendingMovies} />
-        <Trending loading={tvLoading} title="Shows" trending={trendingShows} />
+        <Flex flexDirection="column">
+          <Trending loading={movieLoading} title="Movies" trending={trendingMovies} />
+          <Trending loading={tvLoading} title="Shows" trending={trendingShows} />
+        </Flex>
       </Flex>
     </Flex>
   );

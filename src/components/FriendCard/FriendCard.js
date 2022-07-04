@@ -8,17 +8,26 @@ const FriendCard = (props) => {
 
     let splitGenres = friend.genres && friend.genres.split(" ");
     let splitActors = friend.actors && friend.actors.split(" ");
+    let fullActors = [];
+
+    for (let i = 0; i < splitActors.length - 1; i = i + 2) {
+        let data = splitActors.slice(i, i + 2).join(" ");
+        data = data.split(" ");
+        let first = data[0][0].toUpperCase() + data[0].substring(1, data[0].length) + " ";
+        let last = data[1][0].toUpperCase() + data[1].substring(1, data[1].length);
+        fullActors.push(first.concat(last));
+    }
 
     return (
         <Flex mb="15px" borderRadius="10px" padding="20px" backgroundColor="#DEB992" flexDirection="column">
             {props.loading ? <Spinner /> : 
             <Flex flexDirection="column">
                 <Flex flexDirection="row">
-                    <Circle size='50px' bg='#1BA098' color="#051622">{friend.name.split(" ")[0][0] + friend.name.split(" ")[1][0]}</Circle>
-                    <Text fontSize="20px" fontWeight="bold" pr="15px" mt="10px" ml="10px" color="#051622">{friend.name}</Text>
+                    <Circle size='50px' bg='#1BA098' color="#051622">{friend.name.split(" ")[0][0].toUpperCase() + friend.name.split(" ")[1][0].toUpperCase()}</Circle>
+                    <Text fontSize="20px" fontWeight="bold" pr="15px" mt="10px" ml="10px" color="#051622">{friend.name.split(" ")[0][0].toUpperCase() + friend.name.split(" ")[0].substring(1, friend.name.split(" ")[0].length) + " " + friend.name.split(" ")[1][0].toUpperCase() + friend.name.split(" ")[1].substring(1, friend.name.split(" ")[1].length)}</Text>
                 </Flex>
                 <Flex flexDirection="row">
-                    <Text mt="15px" mr="15px" fontWeight="bold">Genres</Text>
+                    <Text mt="20px" mr="15px" fontWeight="bold">Genres</Text>
                     {splitGenres && splitGenres.map((genre, index) => {
                     return (
                         <ProfileTag key={index} value={genre} />
@@ -26,8 +35,8 @@ const FriendCard = (props) => {
                     })}
                 </Flex>
                 <Flex flexDirection="row">
-                    <Text mt="15px" mr="15px" fontWeight="bold">Actors</Text>
-                    {splitActors && splitActors.map((actor, index) => {
+                    <Text mt="20px" mr="15px" fontWeight="bold">Actors</Text>
+                    {fullActors && fullActors.map((actor, index) => {
                     return (
                         <ProfileTag key={index} value={actor} />
                     )

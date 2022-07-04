@@ -125,7 +125,7 @@ const MovieResult = (props) => {
 
     return (
         <Flex>
-            <Flex cursor="pointer" flexDirection="row" mb="25px" onClick={onOpen}>
+            <Flex width="400px" cursor="pointer" flexDirection="row" mb="25px" onClick={onOpen}>
                 <Image width="100px" src={result.Poster} alt="movie" />
                 <Flex flexDirection="column" ml="20px">
                     <Heading color="#051622" fontSize="20px">{result.Title}</Heading>
