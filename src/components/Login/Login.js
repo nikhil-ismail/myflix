@@ -45,14 +45,14 @@ const Login = (props) => {
       <Heading color="#1BA098">LOGIN</Heading>
       <Flex flexDirection="column">
         <Text color="#1BA098">Email</Text>
-        <Input backgroundColor="#DEB992" type="email" onChange={(event) => {setEmail(event.target.value)}} />
+        <Input backgroundColor="#718ea3" type="email" onChange={(event) => {setEmail(event.target.value)}} />
       </Flex>
       <Flex flexDirection="column">
         <Text color="#1BA098">Password</Text>
-        <Input backgroundColor="#DEB992" type="password" onChange={(event) => {setPassword(event.target.value)}} />
+        <Input backgroundColor="#718ea3" type="password" onChange={(event) => {setPassword(event.target.value)}} />
       </Flex>
-      <Button backgroundColor="#DEB992" mb="10px" mt="10px" onClick={googleLogin}>Log in with Google</Button>
-      <Button backgroundColor="#DEB992" onClick={login}>Log In</Button>
+      <Button backgroundColor="#718ea3" mb="10px" mt="10px" onClick={googleLogin}>Log in with Google</Button>
+      <Button backgroundColor="#718ea3" onClick={login}>Log In</Button>
       <Text color="#1BA098" cursor="pointer" onClick={() => props.handleRouteChange('signup')}>Not a user? Sign up now!</Text>
     </Flex>
   );

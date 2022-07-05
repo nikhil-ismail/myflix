@@ -69,7 +69,7 @@ const FriendProfile = (props) => {
   return (
     <Flex pb="100%" flexDirection="row">
       <Flex width="450px" pl="30px" pt="55px" flexDirection="column">
-        <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="#DEB992" flexDirection="column">
+        <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="#718ea3" flexDirection="column">
           <Flex flexDirection="column">
             <Flex flexDirection="row">
               <Circle size='50px' bg='#1BA098' color="#051622">{profile.name && profile.name.split(" ")[0][0] + profile.name.split(" ")[1][0]}</Circle>
@@ -96,7 +96,7 @@ const FriendProfile = (props) => {
       </Flex>
       <Flex width="400px" ml="30px" flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px">{profile.name && profile.name.split(" ")[0]}'s Favourites</Heading>
-        <Flex borderRadius="10px" padding="25px" backgroundColor="#DEB992" flexDirection="row">
+        <Flex borderRadius="10px" padding="25px" backgroundColor="#718ea3" flexDirection="row">
           <Flex flexDirection="column">
             <Heading fontSize="24px" mb="25px">Movies</Heading>
             {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieFavs.length === 0 ? (
@@ -130,7 +130,7 @@ const FriendProfile = (props) => {
       </Flex>
       <Flex width="400px" ml="30px" flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px">{profile.name && profile.name.split(" ")[0]}'s  Watch List</Heading>
-        <Flex borderRadius="10px" padding="25px" backgroundColor="#DEB992" flexDirection="row">
+        <Flex borderRadius="10px" padding="25px" backgroundColor="#718ea3" flexDirection="row">
           <Flex flexDirection="column">
             <Heading fontSize="24px" mb="25px">Movies</Heading>
             {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieWatch.length === 0 ? (

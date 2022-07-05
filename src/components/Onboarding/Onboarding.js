@@ -34,17 +34,17 @@ const Onboarding = (props) => {
         <Heading color="#1BA098">COMPLETE YOUR PROFILE</Heading>
         <Flex flexDirection="column">
           <Text color="#1BA098">Name</Text>
-          <Input backgroundColor="#DEB992" placeholder={userName} type="text" onChange={(event) => {setName(event.target.value)}} />
+          <Input backgroundColor="#718ea3" placeholder={userName} type="text" onChange={(event) => {setName(event.target.value)}} />
         </Flex>
         <Flex flexDirection="column">
           <Text color="#1BA098">What genres are you interested in?</Text>
-          <Input backgroundColor="#DEB992" type="text" placeholder="Drama, Comedy, etc." onChange={(event) => {setGenres(event.target.value)}} />
+          <Input backgroundColor="#718ea3" type="text" placeholder="Drama, Comedy, etc." onChange={(event) => {setGenres(event.target.value)}} />
         </Flex>
         <Flex flexDirection="column">
           <Text color="#1BA098">Who are your favourite actors/actresses?</Text>
-          <Input backgroundColor="#DEB992" type="text" placeholder="Brad Pitt, Jennifer Lawrence, etc." onChange={(event) => {setActors(event.target.value)}} />
+          <Input backgroundColor="#718ea3" type="text" placeholder="Brad Pitt, Jennifer Lawrence, etc." onChange={(event) => {setActors(event.target.value)}} />
         </Flex>
-        <Button mt="15px" backgroundColor="#DEB992" onClick={handleOnboard}>Complete</Button>
+        <Button mt="15px" backgroundColor="#718ea3" onClick={handleOnboard}>Complete</Button>
       </Flex>
     </Flex>
   );

@@ -19,7 +19,7 @@ const FriendCard = (props) => {
     }
 
     return (
-        <Flex mb="15px" borderRadius="10px" padding="20px" backgroundColor="#DEB992" flexDirection="column">
+        <Flex mb="15px" borderRadius="10px" padding="20px" backgroundColor="#718ea3" flexDirection="column">
             {props.loading ? <Spinner /> : 
             <Flex flexDirection="column">
                 <Flex flexDirection="row">

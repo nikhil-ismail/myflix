@@ -121,7 +121,7 @@ const UserProfile = () => {
     <Flex flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px">My Profile</Heading>
         <Flex width="400px" flexWrap="wrap" flexDirection="column">
-            <Flex borderRadius="10px" padding="20px" backgroundColor="#DEB992" flexDirection="column">
+            <Flex borderRadius="10px" padding="20px" backgroundColor="#718ea3" flexDirection="column">
                 {meLoading ? <Spinner /> :
                 <Flex flexDirection="column">
                     <Flex flexDirection="row">

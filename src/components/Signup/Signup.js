@@ -41,14 +41,14 @@ const Signup = (props) => {
         <Heading color="#1BA098">SIGNUP</Heading>
         <Flex flexDirection="column">
           <Text color="#1BA098">Email</Text>
-          <Input backgroundColor="#DEB992" type="email" onChange={(event) => {setEmail(event.target.value)}} />
+          <Input backgroundColor="#718ea3" type="email" onChange={(event) => {setEmail(event.target.value)}} />
         </Flex>
         <Flex flexDirection="column">
           <Text color="#1BA098">Password</Text>
-          <Input backgroundColor="#DEB992" type="password" onChange={(event) => {setPassword(event.target.value)}} />
+          <Input backgroundColor="#718ea3" type="password" onChange={(event) => {setPassword(event.target.value)}} />
         </Flex>
-        <Button backgroundColor="#DEB992" mb="10px" mt="10px" onClick={googleRegister}>Sign up with Google</Button>
-        <Button backgroundColor="#DEB992" onClick={register}>Sign Up</Button>
+        <Button backgroundColor="#718ea3" mb="10px" mt="10px" onClick={googleRegister}>Sign up with Google</Button>
+        <Button backgroundColor="#718ea3" onClick={register}>Sign Up</Button>
         <Text color="#1BA098" cursor="pointer" onClick={() => props.handleRouteChange('login')}>Already a user? Login here!</Text>
       </Flex>
     </Flex>

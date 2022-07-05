@@ -60,7 +60,7 @@ const Favourites = () => {
       <Flex width="42.5%" ml="30px" flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px">Favourites</Heading>
         <Flex flexDirection="column">
-          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#DEB992" flexDirection="column">
+          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#718ea3" flexDirection="column">
             <Heading fontSize="24px" mb="15px">Movies ({movieFavs.length})</Heading>
             {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieFavs.length === 0 ? (
               <Text mb="25px">You have not liked any movies yet!</Text>
@@ -74,7 +74,7 @@ const Favourites = () => {
               </HorizontalScroll> 
             }
           </Flex>
-          <Flex backgroundColor="#DEB992" mt="30px" width="100%" borderRadius="10px" padding="20px" backgroundColor="#DEB992" flexDirection="column">
+          <Flex backgroundColor="#718ea3" mt="30px" width="100%" borderRadius="10px" padding="20px" backgroundColor="#718ea3" flexDirection="column">
             <Flex flexDirection="column">
               <Heading fontSize="24px" mb="15px">TV Shows ({tvFavs.length})</Heading>
               {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvFavs.length === 0 ? (
@@ -98,7 +98,7 @@ const Favourites = () => {
       <Flex ml="30px" width="42.5%" flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px">My Watch List</Heading>
         <Flex flexDirection="column">
-          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#DEB992" flexDirection="column">
+          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#718ea3" flexDirection="column">
             <Heading fontSize="24px" mb="15px">Movies ({movieWatch.length})</Heading>
               {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieWatch.length === 0 ? (
                 <Text mb="25px">You have not added any movies to your watch list yet!</Text>
@@ -112,7 +112,7 @@ const Favourites = () => {
               </HorizontalScroll> 
               }
           </Flex>
-          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#DEB992" mt="30px" flexDirection="column">
+          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#718ea3" mt="30px" flexDirection="column">
             <Heading fontSize="24px" mb="15px">TV Shows ({tvWatch.length})</Heading>
               {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvWatch.length === 0 ? (
                 <Text mb="25px">You have not added any tv shows to your watch list yet!</Text>

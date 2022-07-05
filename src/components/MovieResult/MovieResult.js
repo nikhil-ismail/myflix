@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, useDisclosure, Button, Text, Flex, Image, Heading } from '@chakra-ui/react';
+import { Spinner, Box, Square, Divider, Icon, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, useDisclosure, Text, Flex, Image, Heading } from '@chakra-ui/react';
 import { doc, collection, deleteDoc, addDoc, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../../firebase-config";
-import { Box, Spinner } from '@chakra-ui/react'
+import axios from 'axios';
+import { FaImdb } from 'react-icons/fa';
+import { SiRottentomatoes } from 'react-icons/si';
+import { AiOutlineHeart, AiFillHeart, AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 
 const MovieResult = (props) => {
-
-    /*
-    BUGS in modal
-    - delete doesn't work
-    - favourites/watch list will only get updated when you close the modal (internally for code)
-    */
 
     const { result } = props;
 
@@ -18,8 +15,8 @@ const MovieResult = (props) => {
 
     const [liked, setLiked] = useState(false);
     const [listed, setListed] = useState(false);
-    const [favLoading, setFavLoading] = useState(true);
-    const [watchLoading, setWatchLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [movieDetails, setMovieDetails] = useState({});
 
     const watchListCollectionRef = collection(db, "watch-list");
     const favouritesCollectionRef = collection(db, "favourites");
@@ -32,7 +29,6 @@ const MovieResult = (props) => {
           const data = await getDocs(q);
           const favourites = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
           setLiked(favourites.find(item => item.movie.title === result.Title && item.movie.year === result.Year) ? true : false);
-          setFavLoading(false);
         }
         catch(err) {
           console.log(err);
@@ -45,7 +41,6 @@ const MovieResult = (props) => {
           const data = await getDocs(q);
           const watchList = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
           setListed(watchList.find(item => item.movie.title === result.Title && item.movie.year === result.Year) ? true : false);
-          setWatchLoading(false);
         }
         catch(err) {
           console.log(err);
@@ -53,6 +48,19 @@ const MovieResult = (props) => {
     };
 
     useEffect(() => {
+        axios.get(`http://www.omdbapi.com/?apikey=dffd1309&i=${result.imdbID}`)
+        .then(response => {
+            if (response.data.Response === "True") {
+                const data = response.data;
+                setMovieDetails(data);
+                setLoading(false);
+            } else {
+                setMovieDetails({});
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        })
         getFavourites();
         getWatchList();
     }, []);
@@ -135,30 +143,72 @@ const MovieResult = (props) => {
                 </Flex>
             </Flex>
 
-            <Modal onClose={onClose} isOpen={isOpen} isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                <ModalHeader fontSize="26px">{result.Title} ({result.Year})</ModalHeader>
-                <ModalBody>
-                {
-                favLoading || watchLoading ?
-                <Spinner /> :
-                <Box>
-                    <Image width="250px" src={result.Poster} alt="movie" />
-                    {listed ?
-                    <Button mt="20px" mr="20px" onClick={() => handleRemoveWatch(result)}>Remove from Watch List</Button> :
-                    <Button mt="20px" mr="20px" onClick={() => handleWatchList(result)}>Add to Watch List</Button>
-                    }
-                    {liked ?
-                    <Button mt="20px" onClick={() => handleUnlike(result)}>Unlike</Button> :
-                    <Button mt="20px" onClick={() => handleLike(result)}>Like</Button>
-                    }
-                </Box>
-                }
-                </ModalBody>
-                <ModalFooter>
-                    <Button onClick={onClose}>Close</Button>
-                </ModalFooter>
+            <Modal size={"3xl"} onClose={onClose} isOpen={isOpen} isCentered>
+                <ModalOverlay backdropFilter='blur(10px)' />
+                <ModalContent backgroundColor="#051622" color="#718ea3">
+                    {loading ? <Spinner /> :
+                    <Box>
+                        <Flex flexDirection="row">
+                            <Flex flexDirection="column">
+                                <ModalHeader ml="5px" fontSize="35px">{result.Title}</ModalHeader>
+                            </Flex>
+                        </Flex>
+                        <ModalBody>
+                            <Flex flexDirection="column">
+                                <Flex flexDirection="row">
+                                    <Image borderRadius="10px" width="275px" src={result.Poster} alt="movie" />
+                                    <Flex ml="20px" flexDirection="column">
+                                        <Flex flexDirection="row">
+                                            <Square fontWeight="bold" width="70px" height="35px" pl="5px" pr="5px" bg='#718ea3' border="1px solid black" color="#051622">{movieDetails.Rated}</Square>
+                                            <Text fontWeight="bold" ml="25px" mt="5px">{movieDetails.Runtime}</Text>
+                                            <Flex ml="25px" flexDirection="row">
+                                                <Icon as={FaImdb} w={9} h={9} />
+                                                <Text ml="7px" mt="5px">{movieDetails.imdbRating && movieDetails.imdbRating + "/10"}</Text>
+                                            </Flex>
+                                            <Flex ml="25px" flexDirection="row">
+                                                <Icon as={SiRottentomatoes} w={9} h={9} />
+                                                <Text ml="7px" mt="5px">{movieDetails.Ratings.find(rating => rating.Source === "Rotten Tomatoes") !== undefined ? movieDetails.Ratings[1].Value : "N/A"}</Text>
+                                            </Flex>
+                                        </Flex>
+                                        <Divider mt="15px" mb="15px" orientation="horizontal" />
+                                        <Text mb="10px">{movieDetails.Plot}</Text>
+                                        <Flex mb="10px" flexDirection="row">
+                                            <Text fontWeight="bold">Genre:</Text>
+                                            <Text ml="5px">{movieDetails.Genre}</Text>
+                                        </Flex>
+                                        <Flex mb="10px" flexDirection="row">
+                                            <Text fontWeight="bold">Cast:</Text>
+                                            <Text ml="5px">{movieDetails.Actors}</Text>
+                                        </Flex>
+                                        <Flex mb="10px" flexDirection="row">
+                                            <Text fontWeight="bold">Director:</Text>
+                                            <Text ml="5px">{movieDetails.Director}</Text>
+                                        </Flex>
+                                        <Flex mb="10px" flexDirection="row">
+                                            <Text fontWeight="bold">Released:</Text>
+                                            <Text ml="5px">{movieDetails.Released}</Text>
+                                        </Flex>
+                                        {result.Type === "movie" && 
+                                        <Flex mb="10px" flexDirection="row">
+                                            <Text fontWeight="bold">Box Office:</Text>
+                                            <Text ml="5px">{movieDetails.BoxOffice}</Text>
+                                        </Flex>
+                                        }
+                                    </Flex>
+                                </Flex>
+                                <Flex ml="50px" flexDirection="row">
+                                    {listed ?
+                                    <Icon w={9} h={9} as={AiOutlineMinus} mb="15px" mt="15px" mr="20px" cursor="pointer" onClick={() => handleRemoveWatch(result)} /> :
+                                    <Icon w={9} h={9} as={AiOutlinePlus} mb="15px" mt="15px" mr="20px" cursor="pointer" onClick={() => handleWatchList(result)} />
+                                    }
+                                    {liked ?
+                                    <Icon w={9} h={9} as={AiFillHeart} mb="15px" mt="15px" mr="20px" cursor="pointer"  onClick={() => handleUnlike(result)} /> :
+                                    <Icon w={9} h={9} as={AiOutlineHeart} mb="15px" mt="15px" mr="20px" cursor="pointer"  onClick={() => handleLike(result)} />
+                                    }
+                                </Flex>
+                            </Flex>
+                        </ModalBody>
+                    </Box>}
                 </ModalContent>
             </Modal>
         </Flex>

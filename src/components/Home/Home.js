@@ -11,11 +11,11 @@ const Home = () => {
 
   const [results, setResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [resultCount, setResultCount] = useState(0);
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [trendingShows, setTrendingShows] = useState([]);
   const [movieLoading, setMovieLoading] = useState(true);
   const [tvLoading, setTvLoading] = useState(true);
+  const [update, setUpdate] = useState(false);
 
   const userEmail = auth.currentUser.email;
 
@@ -46,34 +46,21 @@ const Home = () => {
     }
   }
 
-
   const handleQueryChange = (text) => {
     setSearchQuery(text);
   }
 
-  const handleShowMore = () => {
-    let count = resultCount + 1;
-    setResultCount(count);
-  }
-
-  const handleShowLess = () => {
-    let count = resultCount - 1;
-    setResultCount(count);
+  const handleUpdate = () => {
+    setUpdate(!update);
   }
 
   useEffect(() => {
     axios.get(`http://www.omdbapi.com/?apikey=dffd1309&s=${searchQuery}`)
     .then(response => {
         if (response.data.Response === "True") {
-          if (resultCount === 1) {
-            setResults(response.data.Search.slice(0,3));
-          }
-          else {
-            setResults(response.data.Search.slice(0,6));
-          }
+          setResults(response.data.Search.slice(0,8));
         }
         else {
-          setResultCount(0);
           setResults([]);
         }
     })
@@ -81,7 +68,9 @@ const Home = () => {
         console.log(err);
     })
     getTrending();
-  }, [searchQuery, resultCount])
+  }, [searchQuery])
+
+  console.log(results);
 
   return (
     <Flex>
@@ -91,16 +80,17 @@ const Home = () => {
           ?
           <Flex width="500px" flexDirection="column">
             <Search title="Movies or TV Shows" handleQueryChange={handleQueryChange} />
+            <Results query="" results={[]} />
           </Flex>
           :
           <Flex width="500px" flexDirection="column" className="searching">
             <Search title="Movies or TV Shows" handleQueryChange={handleQueryChange} />
-            <Results query={searchQuery} results={results} resultCount={resultCount} handleShowLess={handleShowLess} handleShowMore={handleShowMore} />
+            <Results query={searchQuery} results={results} />
           </Flex>
         }
         <Flex flexDirection="column">
-          <Trending loading={movieLoading} title="Movies" trending={trendingMovies} />
-          <Trending loading={tvLoading} title="Shows" trending={trendingShows} />
+          <Trending handleUpdate={handleUpdate} loading={movieLoading} title="Movies" trending={trendingMovies} />
+          <Trending handleUpdate={handleUpdate} loading={tvLoading} title="Shows" trending={trendingShows} />
         </Flex>
       </Flex>
     </Flex>

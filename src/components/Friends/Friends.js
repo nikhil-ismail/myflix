@@ -68,7 +68,7 @@ const Friends = (props) => {
         <Heading color="#1BA098" fontSize="26px" mb="25px">My Friends</Heading>
         <Flex width="450px" borderRadius="10px" flexDirection="column">
           {loading ? <Spinner /> : friends.length === 0 ? (
-            <Flex mb="15px" borderRadius="10px" padding="20px" backgroundColor="#DEB992" flexDirection="column">
+            <Flex mb="15px" borderRadius="10px" padding="20px" backgroundColor="#718ea3" flexDirection="column">
               <Text mt="25px" mb="25px">You have not followed any friends yet!</Text>
             </Flex>
           ) : 
