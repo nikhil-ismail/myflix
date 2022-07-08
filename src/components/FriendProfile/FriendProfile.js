@@ -3,7 +3,8 @@ import { Text, Heading, Flex, Circle, Spinner, Center, Divider } from "@chakra-u
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import MyList from "../MyList/MyList";
-import ProfileTag from "../ProfileTag/ProfileTag";
+import FriendCard from "../FriendCard/FriendCard";
+import HorizontalScroll from 'react-horizontal-scrolling';
 
 const FriendProfile = (props) => {
 
@@ -68,95 +69,86 @@ const FriendProfile = (props) => {
 
   return (
     <Flex pb="100%" flexDirection="row">
-      <Flex width="450px" pl="30px" pt="55px" flexDirection="column">
-        <Flex mb="10px" borderRadius="10px" padding="25px" backgroundColor="#c4cfce" flexDirection="column">
-          <Flex flexDirection="column">
-            <Flex flexDirection="row">
-              <Circle size='50px' bg='#1BA098' color="#051622">{profile.name && profile.name.split(" ")[0][0] + profile.name.split(" ")[1][0]}</Circle>
-              <Text fontSize="20px" fontWeight="bold" pr="15px" mt="10px" ml="10px" color="#051622">{profile.name}</Text>
-            </Flex>
-            <Flex flexDirection="row" width="100%">
-              <Text mt="20px" mr="15px" fontWeight="bold">Genres</Text>
-              {splitGenres && splitGenres.map((genre, index) => {
-                return (
-                  <ProfileTag key={index} value={genre} />
-                )
-              })}
-            </Flex>
-            <Flex flexDirection="row" width="100%">
-              <Text mt="20px" mr="15px" fontWeight="bold">Actors</Text>
-              {fullActors && fullActors.map((actor, index) => {
-                return (
-                  <ProfileTag key={index} value={actor} />
-                )
-              })}
-            </Flex>
-          </Flex>
-        </Flex>
+      <Flex ml="25px" mt="15px">
+        <FriendCard profile={true} friend={profile} />
       </Flex>
-      <Flex width="400px" ml="30px" flexDirection="column">
+      <Flex maxWidth="450px" ml="30px" flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px">{profile.name && profile.name.split(" ")[0]}'s Favourites</Heading>
-        <Flex borderRadius="10px" padding="25px" backgroundColor="#c4cfce" flexDirection="row">
+        <Flex borderRadius="10px" padding="25px" backgroundColor="#c4cfce" flexDirection="column">
           <Flex flexDirection="column">
-            <Heading fontSize="24px" mb="25px">Movies</Heading>
+            <Heading fontSize="24px">Movies</Heading>
             {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieFavs.length === 0 ? (
-              <Text mb="25px">{profile.name.split(" ")[0]} has not liked any movies yet!</Text>
+              <Text mt="15px" mb="25px">{profile.name.split(" ")[0]} has not liked any movies yet!</Text>
             ) : 
-              (
-              movieFavs.map((favourite, index) => {
-                return (
+              <HorizontalScroll>
+                <Flex ml="5px" mr="5px">
+                  {movieFavs.map((favourite, index) => {
+                  return (
                     <MyList handleUpdate={handleUpdate} key={index} movie={favourite} />
-                )
-              })
-            )}
+                    )
+                  })}
+                </Flex>
+              </HorizontalScroll> 
+            }
           </Flex>
-          <Center pr="30px" height='100%'>
-            <Divider orientation='vertical' />
+          <Center mb="30px">
+            <Divider orientation='horizontal' />
           </Center>
           <Flex flexDirection="column">
-            <Heading fontSize="24px" mb="25px">TV Shows</Heading>
+            <Heading fontSize="24px">TV Shows</Heading>
             {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvFavs.length === 0 ? (
-              <Text mb="25px">{profile.name.split(" ")[0]} has not liked any tv shows yet!</Text>
+              <Text mt="15px" mb="25px">{profile.name.split(" ")[0]} has not liked any tv shows yet!</Text>
             ) : 
-              (
-              tvFavs.map((favourite, index) => {
+            <HorizontalScroll>
+              <Flex ml="5px" mr="5px">
+                {tvFavs.map((favourite, index) => {
                 return (
-                    <MyList handleUpdate={handleUpdate} key={index} movie={favourite} />
-                )
-              })
-            )}
+                  <MyList handleUpdate={handleUpdate} key={index} movie={favourite} />
+                  )
+                })}
+              </Flex>
+            </HorizontalScroll> 
+            }
           </Flex>
         </Flex>
       </Flex>
-      <Flex width="400px" ml="30px" flexDirection="column">
+      <Flex maxWidth="450px" ml="30px" flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px">{profile.name && profile.name.split(" ")[0]}'s  Watch List</Heading>
-        <Flex borderRadius="10px" padding="25px" backgroundColor="#c4cfce" flexDirection="row">
+        <Flex borderRadius="10px" padding="25px" backgroundColor="#c4cfce" flexDirection="column">
           <Flex flexDirection="column">
-            <Heading fontSize="24px" mb="25px">Movies</Heading>
+            <Heading fontSize="24px">Movies</Heading>
             {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieWatch.length === 0 ? (
-              <Text mb="25px">{profile.name.split(" ")[0]} has not added any movies to their watch list yet!</Text>
-            ) : (
-              movieWatch.map((watch, index) => {
-                return (
-                  <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
-                )
-              })
-            )}
+              <Text mt="15px" mb="25px">{profile.name.split(" ")[0]} has not added any movies to their watch list yet!</Text>
+            ) :
+              <HorizontalScroll>
+                <Flex ml="5px" mr="5px">
+                  {movieWatch.map((watch, index) => {
+                  return (
+                    <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
+                    )
+                  })}
+                </Flex>
+              </HorizontalScroll> 
+            }
           </Flex>
-          <Center pr="30px" height='100%'>
-            <Divider orientation='vertical' />
+          <Center mb="30px">
+            <Divider orientation='horizontal' />
           </Center>
           <Flex flexDirection="column">
-            <Heading fontSize="24px" mb="25px">TV Shows</Heading>
+            <Heading fontSize="24px">TV Shows</Heading>
             {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvWatch.length === 0 ? (
-              <Text mb="25px">{profile.name.split(" ")[0]} has not added any tv shows to their watch list yet!</Text>
-            ) : (
-              tvWatch.map((watch, index) => {
-                return (
-                  <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
-                )
-              })
-            )}
+              <Text mt="15px" mb="25px">{profile.name.split(" ")[0]} has not added any tv shows to their watch list yet!</Text>
+            ) :
+              <HorizontalScroll>
+                <Flex ml="5px" mr="5px">
+                  {tvWatch.map((watch, index) => {
+                  return (
+                    <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
+                    )
+                  })}
+                </Flex>
+              </HorizontalScroll>  
+            }
           </Flex>
         </Flex>
       </Flex>

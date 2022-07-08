@@ -47,7 +47,6 @@ const Login = (props) => {
         <Heading fontSize="60px" color="#1BA098" pt="30px">MyFlix</Heading>
         <Flex alignItems="center" flexDirection="column" pt="75px">
           <Heading fontSize="40px" mb="30px" color="#051622">Login to Your Account</Heading>
-          <button type="button" class="login-with-google-btn" onClick={googleLogin}>Login with Google</button>
           <Divider width="100%" orientation="horizontal" />
           <Flex mt="30px" flexDirection="column">
             <Input placeholder="Email" width="500px" borderRadius="20px" backgroundColor="#c4cfce" type="email" onChange={(event) => {setEmail(event.target.value)}} />
@@ -55,7 +54,9 @@ const Login = (props) => {
           <Flex mt="15px" mb="30px" flexDirection="column">
             <Input placeholder="Password" width="500px" borderRadius="20px" backgroundColor="#c4cfce" type="password" onChange={(event) => {setPassword(event.target.value)}} />
           </Flex>
-          <Button backgroundColor="#1BA098" color="white" width="200px" borderRadius="20px" onClick={login}>Login</Button>
+          <Button mb="15px" backgroundColor="#1BA098" color="white" width="200px" borderRadius="20px" onClick={login}>Login</Button>
+          <Text mb="15px">or</Text>
+          <button type="button" class="login-with-google-btn" onClick={googleLogin}>Login with Google</button>
         </Flex>
       </Flex>
       <Flex alignItems="center" pt="230px" flexDirection="column" width="45%">

@@ -4,6 +4,7 @@ import { collection, getDocs, updateDoc, doc, arrayUnion, arrayRemove } from "fi
 import { db, auth } from "../../firebase-config";
 import FriendCard from "../FriendCard/FriendCard";
 import UserProfile from "../UserProfile/UserProfile";
+import HorizontalScroll from 'react-horizontal-scrolling';
 
 const Friends = (props) => {
 
@@ -60,40 +61,46 @@ const Friends = (props) => {
   }, [update]);
 
   return (
-    <Flex ml="30px" flexDirection="row">
+    <Flex pb="100px" ml="30px" flexDirection="row">
       <Flex mr="30px" flexDirection="column">
         <UserProfile />
       </Flex>
-      <Flex flexDirection="column">
-        <Heading color="#1BA098" fontSize="26px" mb="25px">My Friends</Heading>
-        <Flex width="450px" borderRadius="10px" flexDirection="column">
-          {loading ? <Spinner /> : friends.length === 0 ? (
-            <Flex mb="15px" borderRadius="10px" padding="20px" backgroundColor="#c4cfce" flexDirection="column">
-              <Text mt="25px" mb="25px">You have not followed any friends yet!</Text>
-            </Flex>
-          ) : 
-            (
-            friends.map((friend, index) => {
-              return (
-                  <FriendCard loading={loading} handleRouteChange={props.handleRouteChange} handleFollow={handleFollow} handleUnfollow={handleUnfollow} following={true} friend={friend} key={index} />
-              )
-            })
-          )}
+      <Flex minWidth="940px" maxWidth="1200px" flexDirection="column">
+        <Flex ml="25px" mb="25px" flexDirection="column">
+          <Heading ml="25px" color="#1BA098" fontSize="26px">My Friends</Heading>
+          <Flex backgroundColor="#051622" flexDirection="column" mr="30px" padding="20px" borderRadius="10px">
+            {loading ? <Spinner /> : friends.length === 0 ? (
+                <Text mt="25px" mb="25px">You have not followed any friends yet!</Text>
+            ) : 
+            <HorizontalScroll>
+              <Flex ml="5px" mr="5px">
+                {friends.map((friend, index) => {
+                return (
+                  <FriendCard profile={false} loading={loading} handleRouteChange={props.handleRouteChange} handleFollow={handleFollow} handleUnfollow={handleUnfollow} following={true} friend={friend} key={index} />
+                )
+                })}
+              </Flex>
+            </HorizontalScroll> 
+            }
+          </Flex>
         </Flex>
-      </Flex>
-      <Flex ml="30px" flexDirection="column">
-        <Heading color="#1BA098" fontSize="26px" mb="25px">Follow Users</Heading>
-        <Flex width="450px" borderRadius="10px" flexDirection="column">
-          {loading ? <Spinner /> : users.length === 0 ? (
-            <Text mt="25px" mb="25px">You have follwed all users!</Text>
-          ) : 
-            (
-            users.map((user, index) => {
-              return (
-                  <FriendCard loading={loading} handleFollow={handleFollow} handleUnfollow={handleUnfollow} following={false} friend={user} key={index} />
-              )
-            })
-          )}
+        <Flex ml="25px" mb="25px" flexDirection="column">
+          <Heading ml="25px" color="#1BA098" fontSize="26px">Follow Users</Heading>
+          <Flex backgroundColor="#051622" flexDirection="column" mr="30px" padding="20px" borderRadius="10px">
+            {loading ? <Spinner /> : users.length === 0 ? (
+              <Text mt="25px" mb="25px">You have follwed all users!</Text>
+            ) : 
+            <HorizontalScroll>
+              <Flex ml="5px" mr="5px">
+                {users.map((user, index) => {
+                return (
+                  <FriendCard profile={false} loading={loading} handleFollow={handleFollow} handleUnfollow={handleUnfollow} following={false} friend={user} key={index} />
+                  )
+                })}
+              </Flex>
+            </HorizontalScroll> 
+            }
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

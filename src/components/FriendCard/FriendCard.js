@@ -4,7 +4,7 @@ import ProfileTag from "../ProfileTag/ProfileTag";
 
 const FriendCard = (props) => {
 
-    const { friend, following, handleFollow, handleUnfollow } = props;
+    const { profile, friend, following, handleFollow, handleUnfollow } = props;
 
     let splitGenres = friend.genres && friend.genres.split(" ");
     let splitActors = friend.actors && friend.actors.split(" ");
@@ -19,9 +19,10 @@ const FriendCard = (props) => {
     }
 
     return (
-        <Flex mb="15px" borderRadius="10px" padding="20px" backgroundColor="#c4cfce" flexDirection="column">
-            {props.loading ? <Spinner /> : 
-            <Flex flexDirection="column">
+        <Flex height={profile && "200px"} cursor={following && "pointer"} _hover={{ boxShadow:'dark-lg', rounded:'md', borderRadius: '10px', padding: "15px" }} maxWidth="450px" mb="15px" mr="10px" borderRadius="10px" padding="15px" backgroundColor="#c4cfce" flexDirection="column">
+            {props.loading ? <Spinner /> :
+            profile ?
+            <Flex flexDirection="column" onClick={following ? () => props.handleRouteChange('friendProfile', friend) : null}>
                 <Flex flexDirection="row">
                     <Circle size='50px' bg='#1BA098' color="#051622">{friend.name.split(" ")[0][0].toUpperCase() + friend.name.split(" ")[1][0].toUpperCase()}</Circle>
                     <Text fontSize="20px" fontWeight="bold" pr="15px" mt="10px" ml="10px" color="#051622">{friend.name.split(" ")[0][0].toUpperCase() + friend.name.split(" ")[0].substring(1, friend.name.split(" ")[0].length) + " " + friend.name.split(" ")[1][0].toUpperCase() + friend.name.split(" ")[1].substring(1, friend.name.split(" ")[1].length)}</Text>
@@ -42,12 +43,23 @@ const FriendCard = (props) => {
                     )
                     })}
                 </Flex>
+            </Flex>
+            :
+            <Flex height="100%"  flexDirection="column">
+                <Flex flexDirection="column" onClick={following ? () => props.handleRouteChange('friendProfile', friend) : null}>
+                    <Flex flexDirection="row">
+                        <Circle size='50px' bg='#1BA098' color="#051622">{friend.name.split(" ")[0][0].toUpperCase() + friend.name.split(" ")[1][0].toUpperCase()}</Circle>
+                        <Text fontSize="20px" fontWeight="bold" pr="15px" mt="10px" ml="10px" color="#051622">{friend.name.split(" ")[0][0].toUpperCase() + friend.name.split(" ")[0].substring(1, friend.name.split(" ")[0].length) + " " + friend.name.split(" ")[1][0].toUpperCase() + friend.name.split(" ")[1].substring(1, friend.name.split(" ")[1].length)}</Text>
+                    </Flex>
+                </Flex>
                 {following ?
-                <Flex flexDirection="column">
-                    <Button mt="20px" onClick={() => props.handleRouteChange('friendProfile', friend)}>View Profile</Button>
-                    <Button mt="10px" onClick={() => handleUnfollow(friend)}>Unfollow</Button>
-                </Flex> :
-                <Button mt="20px" onClick={() => handleFollow(friend)}>Follow</Button>
+                <Flex mt="15px" alignItems="center" flexDirection="column">
+                    <Button width="125px" borderRadius="20px" onClick={() => handleUnfollow(friend)}>Unfollow</Button>
+                </Flex>
+                :
+                <Flex mt="15px" justifyContent="center">
+                    <Button width="125px" borderRadius="20px" onClick={() => handleFollow(friend)}>Follow</Button>
+                </Flex>
                 }
             </Flex>
             }
