@@ -12,7 +12,7 @@ const Results = (props) => {
   }
 
   return (
-    <Flex width="440px" backgroundColor="#718ea3" flexDirection="column" mt="10px" ml="30px" padding="25px" borderRadius="10px">
+    <Flex width="440px" backgroundColor="#c4cfce" flexDirection="column" mt="10px" ml="30px" padding="25px" borderRadius="10px">
       <Heading color="#051622" fontSize="26px" mb="25px">Results for "{query}"</Heading>
       {results.length === 0 || query === "" ? (
         <Text>Your search did not have any matches.</Text>

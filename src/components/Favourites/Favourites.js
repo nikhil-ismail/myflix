@@ -3,7 +3,6 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
 import { Text, Flex, Heading, Spinner, Divider, Center } from "@chakra-ui/react";
 import MyList from "../MyList/MyList";
-import UserProfile from "../UserProfile/UserProfile";
 import HorizontalScroll from 'react-horizontal-scrolling';
 
 const Favourites = () => {
@@ -60,32 +59,36 @@ const Favourites = () => {
       <Flex width="42.5%" ml="30px" flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px">Favourites</Heading>
         <Flex flexDirection="column">
-          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#718ea3" flexDirection="column">
+          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#c4cfce" flexDirection="column">
             <Heading fontSize="24px" mb="15px">Movies ({movieFavs.length})</Heading>
             {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieFavs.length === 0 ? (
               <Text mb="25px">You have not liked any movies yet!</Text>
             ) :
               <HorizontalScroll>
-                {movieFavs.map((favourite, index) => {
-                return (
-                    <MyList handleUpdate={handleUpdate} key={index} movie={favourite} />
-                )
-                })}
+                <Flex ml="5px" mr="5px">
+                  {movieFavs.map((favourite, index) => {
+                  return (
+                      <MyList handleUpdate={handleUpdate} key={index} movie={favourite} />
+                  )
+                  })}
+                </Flex>
               </HorizontalScroll> 
             }
           </Flex>
-          <Flex backgroundColor="#718ea3" mt="30px" width="100%" borderRadius="10px" padding="20px" backgroundColor="#718ea3" flexDirection="column">
+          <Flex backgroundColor="#c4cfce" mt="30px" width="100%" borderRadius="10px" padding="20px" backgroundColor="#c4cfce" flexDirection="column">
             <Flex flexDirection="column">
               <Heading fontSize="24px" mb="15px">TV Shows ({tvFavs.length})</Heading>
               {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvFavs.length === 0 ? (
                 <Text mb="25px">You have not liked any tv shows yet!</Text>
               ) : 
               <HorizontalScroll>
-                {tvFavs.map((favourite, index) => {
-                  return (
-                      <MyList handleUpdate={handleUpdate} key={index} movie={favourite} />
-                  )
-                })}
+                <Flex ml="5px" mr="5px">
+                  {tvFavs.map((favourite, index) => {
+                    return (
+                        <MyList handleUpdate={handleUpdate} key={index} movie={favourite} />
+                    )
+                  })}
+                </Flex>
               </HorizontalScroll>
               }
             </Flex>
@@ -98,31 +101,35 @@ const Favourites = () => {
       <Flex ml="30px" width="42.5%" flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px">My Watch List</Heading>
         <Flex flexDirection="column">
-          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#718ea3" flexDirection="column">
+          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#c4cfce" flexDirection="column">
             <Heading fontSize="24px" mb="15px">Movies ({movieWatch.length})</Heading>
               {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieWatch.length === 0 ? (
                 <Text mb="25px">You have not added any movies to your watch list yet!</Text>
               ) :
               <HorizontalScroll>
-                {movieWatch.map((watch, index) => {
-                  return (
-                      <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
-                  )
-                })}
+                <Flex ml="5px" mr="5px">
+                  {movieWatch.map((watch, index) => {
+                    return (
+                        <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
+                    )
+                  })}
+                </Flex>
               </HorizontalScroll> 
               }
           </Flex>
-          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#718ea3" mt="30px" flexDirection="column">
+          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#c4cfce" mt="30px" flexDirection="column">
             <Heading fontSize="24px" mb="15px">TV Shows ({tvWatch.length})</Heading>
               {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvWatch.length === 0 ? (
                 <Text mb="25px">You have not added any tv shows to your watch list yet!</Text>
               ) :
               <HorizontalScroll>
-                {tvWatch.map((watch, index) => {
-                  return (
-                      <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
-                  )
-                })}
+                <Flex ml="5px" mr="5px">
+                  {tvWatch.map((watch, index) => {
+                    return (
+                        <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
+                    )
+                  })}
+                </Flex>
               </HorizontalScroll>
               }
           </Flex>

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db, auth, signInWithGoogle } from '../../firebase-config';
 import { collection, addDoc } from 'firebase/firestore';
-import { Flex, Text, Heading, Input, Button } from "@chakra-ui/react";
+import { Flex, Text, Heading, Input, Button, Divider } from "@chakra-ui/react";
+import "./Signup.css";
 
 const Signup = (props) => {
 
@@ -36,20 +37,26 @@ const Signup = (props) => {
   }
  
   return (
-    <Flex pl="30px" pt="30px" pb="100%">
-      <Flex justifyContent="center" alignItems="center" flexDirection="column">
-        <Heading color="#1BA098">SIGNUP</Heading>
-        <Flex flexDirection="column">
-          <Text color="#1BA098">Email</Text>
-          <Input backgroundColor="#718ea3" type="email" onChange={(event) => {setEmail(event.target.value)}} />
+    <Flex flexDirection="row" width="100%">
+      <Flex width="55%" backgroundColor="white" pb="100%" alignItems="center" flexDirection="column">
+        <Heading fontSize="60px" color="#1BA098" pt="30px">MyFlix</Heading>
+        <Flex alignItems="center" flexDirection="column" pt="75px">
+          <Heading fontSize="40px" mb="30px" color="#051622">Create Your Account</Heading>
+          <button type="button" class="signup-with-google-btn" onClick={googleRegister}>Signup with Google</button>
+          <Divider width="100%" orientation="horizontal" />
+          <Flex mt="30px" flexDirection="column">
+            <Input placeholder="Email" width="500px" borderRadius="20px" backgroundColor="#c4cfce" type="email" onChange={(event) => {setEmail(event.target.value)}} />
+          </Flex>
+          <Flex mt="15px" mb="30px" flexDirection="column">
+            <Input placeholder="Password" width="500px" borderRadius="20px" backgroundColor="#c4cfce" type="password" onChange={(event) => {setPassword(event.target.value)}} />
+          </Flex>
+          <Button backgroundColor="#1BA098" color="white" width="200px" borderRadius="20px" onClick={register}>Sign Up</Button>
         </Flex>
-        <Flex flexDirection="column">
-          <Text color="#1BA098">Password</Text>
-          <Input backgroundColor="#718ea3" type="password" onChange={(event) => {setPassword(event.target.value)}} />
-        </Flex>
-        <Button backgroundColor="#718ea3" mb="10px" mt="10px" onClick={googleRegister}>Sign up with Google</Button>
-        <Button backgroundColor="#718ea3" onClick={register}>Sign Up</Button>
-        <Text color="#1BA098" cursor="pointer" onClick={() => props.handleRouteChange('login')}>Already a user? Login here!</Text>
+      </Flex>
+      <Flex alignItems="center" pt="230px" flexDirection="column" width="45%">
+        <Heading color="#1BA098" mb="30px" fontSize="40px">Already use MyFlix?</Heading>
+        <Text textAlign="center" fontSize="20px" width="60%" mb="30px" color="#1BA098">Login now and browse a catalog of thousands of movies and tv shows with your friends!</Text>
+        <Button width="200px" borderRadius="20px" backgroundColor="#1BA098" onClick={() => props.handleRouteChange('login')}>Login</Button>
       </Flex>
     </Flex>
   );

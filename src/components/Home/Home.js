@@ -78,12 +78,12 @@ const Home = () => {
         {
           searchQuery === ""
           ?
-          <Flex width="500px" flexDirection="column">
+          <Flex width="500px" pt="10px" flexDirection="column">
             <Search title="Movies or TV Shows" handleQueryChange={handleQueryChange} />
             <Results query="" results={[]} />
           </Flex>
           :
-          <Flex width="500px" flexDirection="column" className="searching">
+          <Flex width="500px" pt="10px" flexDirection="column" className="searching">
             <Search title="Movies or TV Shows" handleQueryChange={handleQueryChange} />
             <Results query={searchQuery} results={results} />
           </Flex>

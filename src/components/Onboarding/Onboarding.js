@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { auth } from '../../firebase-config';
 import { db } from '../../firebase-config';
 import { collection, doc, getDocs, updateDoc } from 'firebase/firestore';
-import { Flex, Text, Heading, Input, Button } from "@chakra-ui/react";
+import { Flex, Heading, Input, Button } from "@chakra-ui/react";
 
 const Onboarding = (props) => {
 
@@ -12,7 +12,6 @@ const Onboarding = (props) => {
 
   const usersCollectionRef = collection(db, "users");
   const userEmail = auth.currentUser.email && auth.currentUser.email;
-  const userName = auth.currentUser.displayName && auth.currentUser.displayName;
 
   const handleOnboard = async () => {
     try {
@@ -29,22 +28,14 @@ const Onboarding = (props) => {
   }
   
   return (
-    <Flex>
-      <Flex justifyContent="center" alignItems="center" flexDirection="column">
-        <Heading color="#1BA098">COMPLETE YOUR PROFILE</Heading>
-        <Flex flexDirection="column">
-          <Text color="#1BA098">Name</Text>
-          <Input backgroundColor="#718ea3" placeholder={userName} type="text" onChange={(event) => {setName(event.target.value)}} />
-        </Flex>
-        <Flex flexDirection="column">
-          <Text color="#1BA098">What genres are you interested in?</Text>
-          <Input backgroundColor="#718ea3" type="text" placeholder="Drama, Comedy, etc." onChange={(event) => {setGenres(event.target.value)}} />
-        </Flex>
-        <Flex flexDirection="column">
-          <Text color="#1BA098">Who are your favourite actors/actresses?</Text>
-          <Input backgroundColor="#718ea3" type="text" placeholder="Brad Pitt, Jennifer Lawrence, etc." onChange={(event) => {setActors(event.target.value)}} />
-        </Flex>
-        <Button mt="15px" backgroundColor="#718ea3" onClick={handleOnboard}>Complete</Button>
+    <Flex alignItems="center" flexDirection="column" width="100%">
+      <Heading fontSize="60px" color="#1BA098" pt="30px">MyFlix</Heading>
+      <Flex flexDirection="column" mt="75px" pb="100%">
+        <Heading textAlign="center" color="#1BA098" mb="30px">Complete Your Profile</Heading>
+          <Input borderRadius="20px" mb="15px" width="500px" backgroundColor="#c4cfce" placeholder="Name" type="text" onChange={(event) => {setName(event.target.value)}} />
+          <Input borderRadius="20px" mb="15px" width="500px" backgroundColor="#c4cfce" type="text" placeholder="What genres are you interested in?" onChange={(event) => {setGenres(event.target.value)}} />
+          <Input borderRadius="20px" mb="15px" width="500px" backgroundColor="#c4cfce" type="text" placeholder="Who are your favourite actors/actresses?" onChange={(event) => {setActors(event.target.value)}} />
+        <Button ml="150px" alignItems="center" mt="15px" width="200px" borderRadius="20px" backgroundColor="#c4cfce" onClick={handleOnboard}>Complete</Button>
       </Flex>
     </Flex>
   );
