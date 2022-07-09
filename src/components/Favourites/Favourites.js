@@ -55,7 +55,7 @@ const Favourites = () => {
   }, [update]);
 
   return (
-    <Flex pb="100%" flexDirection="row">
+    <Flex flexDirection="row">
       <Flex width="42.5%" ml="30px" flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px">Favourites</Heading>
         <Flex flexDirection="column">

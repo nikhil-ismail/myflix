@@ -198,26 +198,26 @@ const MovieResult = (props) => {
                                         </Flex>
                                         <Flex flexDirection="row">
                                             {listed ?
-                                            <Flex mb="15px" mt="15px" mr="15px">
+                                            <Flex cursor="pointer" onClick={() => handleRemoveWatch(result)} _hover={{ backgroundColor: "#c4cfce", color: "black", padding: "10px", borderRadius: "20px" }} p="10px" mb="15px" mt="15px" mr="15px">
                                                 <Text mt="2px" mr="10px">Remove</Text>
-                                                <Icon w={7} h={7} as={AiOutlineMinus} cursor="pointer" onClick={() => handleRemoveWatch(result)} /> 
+                                                <Icon w={7} h={7} as={AiOutlineMinus} /> 
                                             </Flex>
                                             :
-                                            <Flex mb="15px" mt="15px" mr="15px">
+                                            <Flex cursor="pointer" onClick={() => handleWatchList(result)} _hover={{ backgroundColor: "#c4cfce", color: "black", padding: "10px", borderRadius: "20px" }} p="10px" mb="15px" mt="15px" mr="15px">
                                                 <Text mt="2px" mr="10px">Add</Text>
-                                                <Icon w={7} h={7} as={AiOutlinePlus} cursor="pointer" onClick={() => handleWatchList(result)} />
+                                                <Icon w={7} h={7} as={AiOutlinePlus} />
                                             </Flex>
                                             }
-                                            <Divider mt="15px" mr="15px" orientation="vertical" height="30px" />
+                                            <Divider mt="25px" mr="15px" orientation="vertical" height="30px" />
                                             {liked ?
-                                            <Flex mb="15px" mt="15px" mr="15px">
+                                            <Flex cursor="pointer" onClick={() => handleUnlike(result)} _hover={{ backgroundColor: "#c4cfce", color: "black", padding: "10px", borderRadius: "20px" }} p="10px" mb="15px" mt="15px" mr="15px">
                                                 <Text mt="2px" mr="10px">Unlike</Text>
-                                                <Icon w={7} h={7} as={AiFillHeart} cursor="pointer"  onClick={() => handleUnlike(result)} />
+                                                <Icon w={7} h={7} as={AiFillHeart} />
                                             </Flex>
                                             :
-                                            <Flex mb="15px" mt="15px" mr="15px">
+                                            <Flex cursor="pointer" onClick={() => handleLike(result)} _hover={{ backgroundColor: "#c4cfce", color: "black", padding: "10px", borderRadius: "20px" }} p="10px" mb="15px" mt="15px" mr="15px">
                                                 <Text mt="2px" mr="10px">Like</Text>
-                                                <Icon alt="" w={7} h={7} as={AiOutlineHeart} cursor="pointer"  onClick={() => handleLike(result)} />
+                                                <Icon alt="" w={7} h={7} as={AiOutlineHeart} />
                                             </Flex>
                                             }
                                         </Flex>

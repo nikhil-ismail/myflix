@@ -38,7 +38,7 @@ const Signup = (props) => {
  
   return (
     <Flex flexDirection="row" width="100%">
-      <Flex width="55%" backgroundColor="white" pb="100%" alignItems="center" flexDirection="column">
+      <Flex width="55%" backgroundColor="white" pb="15%" alignItems="center" flexDirection="column">
         <Heading fontSize="60px" color="#1BA098" pt="30px">MyFlix</Heading>
         <Flex alignItems="center" flexDirection="column" pt="75px">
           <Heading fontSize="40px" mb="30px" color="#051622">Create Your Account</Heading>

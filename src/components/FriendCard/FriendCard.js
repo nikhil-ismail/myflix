@@ -6,8 +6,8 @@ const FriendCard = (props) => {
 
     const { profile, friend, following, handleFollow, handleUnfollow } = props;
 
-    let splitGenres = friend.genres && friend.genres.split(" ");
-    let splitActors = friend.actors && friend.actors.split(" ");
+    let splitGenres = friend.genres ? friend.genres.split(" ") : [];
+    let splitActors = friend.actors ? friend.actors.split(" "): [];
     let fullActors = [];
 
     for (let i = 0; i < splitActors.length - 1; i = i + 2) {
@@ -19,24 +19,24 @@ const FriendCard = (props) => {
     }
 
     return (
-        <Flex height={profile && "200px"} cursor={following && "pointer"} _hover={{ boxShadow:'dark-lg', rounded:'md', borderRadius: '10px', padding: "15px" }} maxWidth="450px" mb="15px" mr="10px" borderRadius="10px" padding="15px" backgroundColor="#c4cfce" flexDirection="column">
+        <Flex cursor={following && "pointer"} _hover={{ boxShadow:'dark-lg', rounded:'md', borderRadius: '10px', padding: "15px" }} mb="15px" mr="10px" borderRadius="10px" padding="15px" backgroundColor="#c4cfce" flexDirection="column">
             {props.loading ? <Spinner /> :
             profile ?
-            <Flex flexDirection="column" onClick={following ? () => props.handleRouteChange('friendProfile', friend) : null}>
+            <Flex width="250px" flexDirection="column" onClick={following ? () => props.handleRouteChange('friendProfile', friend) : null}>
                 <Flex flexDirection="row">
                     <Circle size='50px' bg='#1BA098' color="#051622">{friend.name.split(" ")[0][0].toUpperCase() + friend.name.split(" ")[1][0].toUpperCase()}</Circle>
                     <Text fontSize="20px" fontWeight="bold" pr="15px" mt="10px" ml="10px" color="#051622">{friend.name.split(" ")[0][0].toUpperCase() + friend.name.split(" ")[0].substring(1, friend.name.split(" ")[0].length) + " " + friend.name.split(" ")[1][0].toUpperCase() + friend.name.split(" ")[1].substring(1, friend.name.split(" ")[1].length)}</Text>
                 </Flex>
-                <Flex flexDirection="row">
-                    <Text mt="20px" mr="15px" fontWeight="bold">Genres</Text>
+                <Flex flexDirection="column" flexWrap="wrap">
+                    <Text mt="20px" mr="15px" fontWeight="bold">Favourite Genres</Text>
                     {splitGenres && splitGenres.map((genre, index) => {
                     return (
-                        <ProfileTag key={index} value={genre} />
+                        <ProfileTag genres={true} key={index} value={genre} />
                     )
                     })}
                 </Flex>
-                <Flex flexDirection="row">
-                    <Text mt="20px" mr="15px" fontWeight="bold">Actors</Text>
+                <Flex flexDirection="column" flexWrap="wrap">
+                    <Text mt="20px" mr="15px" fontWeight="bold">Favourite Actors</Text>
                     {fullActors && fullActors.map((actor, index) => {
                     return (
                         <ProfileTag key={index} value={actor} />
@@ -45,7 +45,7 @@ const FriendCard = (props) => {
                 </Flex>
             </Flex>
             :
-            <Flex height="100%"  flexDirection="column">
+            <Flex flexDirection="column">
                 <Flex flexDirection="column" onClick={following ? () => props.handleRouteChange('friendProfile', friend) : null}>
                     <Flex flexDirection="row">
                         <Circle size='50px' bg='#1BA098' color="#051622">{friend.name.split(" ")[0][0].toUpperCase() + friend.name.split(" ")[1][0].toUpperCase()}</Circle>

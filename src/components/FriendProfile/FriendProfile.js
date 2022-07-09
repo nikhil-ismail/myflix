@@ -68,11 +68,11 @@ const FriendProfile = (props) => {
   }, []);
 
   return (
-    <Flex pb="100%" flexDirection="row">
-      <Flex ml="25px" mt="15px">
+    <Flex pb="15%" flexDirection="row">
+      <Flex flexDirection="column" ml="25px" mt="15px">
         <FriendCard profile={true} friend={profile} />
       </Flex>
-      <Flex maxWidth="450px" ml="30px" flexDirection="column">
+      <Flex width="515px" ml="30px" flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px">{profile.name && profile.name.split(" ")[0]}'s Favourites</Heading>
         <Flex borderRadius="10px" padding="25px" backgroundColor="#c4cfce" flexDirection="column">
           <Flex flexDirection="column">
@@ -112,7 +112,7 @@ const FriendProfile = (props) => {
           </Flex>
         </Flex>
       </Flex>
-      <Flex maxWidth="450px" ml="30px" flexDirection="column">
+      <Flex width="515px" ml="30px" flexDirection="column">
         <Heading color="#1BA098" fontSize="26px" mb="25px">{profile.name && profile.name.split(" ")[0]}'s  Watch List</Heading>
         <Flex borderRadius="10px" padding="25px" backgroundColor="#c4cfce" flexDirection="column">
           <Flex flexDirection="column">

@@ -49,37 +49,37 @@ const UserProfile = () => {
 
   return (
     <Flex flexDirection="column">
-        <Heading color="#1BA098" fontSize="26px" mb="25px">My Profile</Heading>
-        <Flex maxWidth="450px" minWidth="250px" flexWrap="wrap" flexDirection="column">
-            <Flex borderRadius="10px" padding="20px" backgroundColor="#c4cfce" flexDirection="column">
-                {meLoading ? <Spinner /> :
-                <Flex flexDirection="column">
-                    <Flex flexDirection="row">
-                        <Circle size='50px' bg='#1BA098' color="#051622">{userInitials}</Circle>
-                        <Text fontSize="20px" fontWeight="bold" pr="15px" mt="10px" ml="10px" color="#051622">{me.name}</Text>
-                        <Flex mt="8px">
-                        </Flex>
-                    </Flex>
-                    <Flex flexDirection="row" width="100%">
-                        <Text mt="20px" mr="15px" fontWeight="bold">Genres</Text>
-                        {splitGenres && splitGenres.map((genre, index) => {
-                        return (
-                            <ProfileTag key={index} value={genre} />
-                        )
-                        })}
-                    </Flex>
-                    <Flex flexDirection="row" width="100%">
-                        <Text mt="20px" mr="15px" fontWeight="bold">Actors</Text>
-                        {fullActors && fullActors.map((actor, index) => {
-                        return (
-                            <ProfileTag key={index} value={actor} />
-                        )
-                        })}
+      <Heading color="#1BA098" fontSize="26px" mb="25px">My Profile</Heading>
+      <Flex width="275px" minWidth="250px" flexDirection="column">
+        <Flex borderRadius="10px" padding="20px" backgroundColor="#c4cfce" flexDirection="column">
+            {meLoading ? <Spinner /> :
+            <Flex flexDirection="column">
+                <Flex flexDirection="row">
+                    <Circle size='50px' bg='#1BA098' color="#051622">{userInitials}</Circle>
+                    <Text fontSize="20px" fontWeight="bold" pr="15px" mt="10px" ml="10px" color="#051622">{me.name}</Text>
+                    <Flex mt="8px">
                     </Flex>
                 </Flex>
-                }
+                <Flex flexDirection="column" flexWrap="wrap" width="100%">
+                    <Text mt="20px" mr="15px" fontWeight="bold">Favourite Genres</Text>
+                    {splitGenres && splitGenres.map((genre, index) => {
+                    return (
+                        <ProfileTag genres={true} key={index} value={genre} />
+                    )
+                    })}
+                </Flex>
+                <Flex flexDirection="column" flexWrap="wrap" width="100%">
+                    <Text mt="20px" mr="15px" fontWeight="bold">Favourite Actors</Text>
+                    {fullActors && fullActors.map((actor, index) => {
+                    return (
+                        <ProfileTag key={index} value={actor} />
+                    )
+                    })}
+                </Flex>
             </Flex>
+            }
         </Flex>
+      </Flex>
     </Flex>
   );
 };

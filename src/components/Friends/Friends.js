@@ -61,16 +61,18 @@ const Friends = (props) => {
   }, [update]);
 
   return (
-    <Flex pb="100px" ml="30px" flexDirection="row">
+    <Flex pb="15%" ml="30px" flexDirection="row">
       <Flex mr="30px" flexDirection="column">
         <UserProfile />
       </Flex>
-      <Flex minWidth="940px" maxWidth="1200px" flexDirection="column">
+      <Flex width="1100px" flexDirection="column">
         <Flex ml="25px" mb="25px" flexDirection="column">
           <Heading ml="25px" color="#1BA098" fontSize="26px">My Friends</Heading>
           <Flex backgroundColor="#051622" flexDirection="column" mr="30px" padding="20px" borderRadius="10px">
             {loading ? <Spinner /> : friends.length === 0 ? (
-                <Text mt="25px" mb="25px">You have not followed any friends yet!</Text>
+                <Flex width="350px" backgroundColor="#c4cfce" flexDirection="column" mr="30px" padding="20px" borderRadius="10px">
+                  <Text mt="25px" mb="25px">You have not followed any friends yet!</Text>
+                </Flex>
             ) : 
             <HorizontalScroll>
               <Flex ml="5px" mr="5px">
@@ -88,7 +90,9 @@ const Friends = (props) => {
           <Heading ml="25px" color="#1BA098" fontSize="26px">Follow Users</Heading>
           <Flex backgroundColor="#051622" flexDirection="column" mr="30px" padding="20px" borderRadius="10px">
             {loading ? <Spinner /> : users.length === 0 ? (
-              <Text mt="25px" mb="25px">You have follwed all users!</Text>
+              <Flex width="350px" backgroundColor="#c4cfce" flexDirection="column" mr="30px" padding="20px" borderRadius="10px">
+                <Text mt="25px" mb="25px">You have follwed all users!</Text>
+              </Flex>
             ) : 
             <HorizontalScroll>
               <Flex ml="5px" mr="5px">
