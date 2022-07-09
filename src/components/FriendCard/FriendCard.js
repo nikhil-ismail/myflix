@@ -22,7 +22,7 @@ const FriendCard = (props) => {
         <Flex cursor={following && "pointer"} _hover={{ boxShadow:'dark-lg', rounded:'md', borderRadius: '10px', padding: "15px" }} mb="15px" mr="10px" borderRadius="10px" padding="15px" backgroundColor="#c4cfce" flexDirection="column">
             {props.loading ? <Spinner /> :
             profile ?
-            <Flex width="250px" flexDirection="column" onClick={following ? () => props.handleRouteChange('friendProfile', friend) : null}>
+            <Flex width="250px" mb="10px" ml="5px" flexDirection="column" onClick={following ? () => props.handleRouteChange('friendProfile', friend) : null}>
                 <Flex flexDirection="row">
                     <Circle size='50px' bg='#1BA098' color="#051622">{friend.name.split(" ")[0][0].toUpperCase() + friend.name.split(" ")[1][0].toUpperCase()}</Circle>
                     <Text fontSize="20px" fontWeight="bold" pr="15px" mt="10px" ml="10px" color="#051622">{friend.name.split(" ")[0][0].toUpperCase() + friend.name.split(" ")[0].substring(1, friend.name.split(" ")[0].length) + " " + friend.name.split(" ")[1][0].toUpperCase() + friend.name.split(" ")[1].substring(1, friend.name.split(" ")[1].length)}</Text>
