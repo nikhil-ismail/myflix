@@ -8,13 +8,28 @@ const Trending = (props) => {
     const { trending } = props;
 
     let newTrending = [];
-    let flag = false;
+    let uniqueTrending = [];
+    let map = new Map();
 
     for (let i = 0; i < trending.length; i++) {
         newTrending.push(trending[i].movie);
     }
 
-    let uniqueTrending = [...new Map(newTrending.map(v => [JSON.stringify([v.title,v.year]), v])).values()]
+    for (let i = 0; i < newTrending.length; i++) {
+        if (!map.get(newTrending[i].title)) {
+            map.set(newTrending[i].title, {count: 1, movie: newTrending[i]});
+        } else {
+            let val = map.get(newTrending[i].title).count;
+            map.set(newTrending[i].title, {count: val + 1, movie: newTrending[i]});
+        }
+    }
+
+    const sortedMap = new Map([...map.entries()].sort((a, b) => b[1].count - a[1].count));
+
+    for (const [key, value] of sortedMap.entries()) {
+        uniqueTrending.push(value.movie);
+    }
+
 
     return (
         <Flex width="910px" ml="25px" mb="25px" flexDirection="column">
