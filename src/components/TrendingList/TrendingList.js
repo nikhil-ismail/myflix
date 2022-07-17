@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Spinner, Icon, Divider, Square, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, useDisclosure, Text, Flex, Image, Heading } from '@chakra-ui/react';
+import { Box, Spinner, Icon, Divider, Square, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, useDisclosure, Text, Flex, Image } from '@chakra-ui/react';
 import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase-config";
 import axios from 'axios';
@@ -126,12 +126,8 @@ const TrendingList = (props) => {
 
     return (
         <Flex>
-            <Flex _hover={{ boxShadow:'dark-lg', rounded:'md', borderRadius: '10px', padding: "10px" }} p="10px" mt="10px" mb="5px" height="300px" width="150px" cursor="pointer" flexDirection="column" onClick={onOpen}>
-                <Image borderRadius="10px" height="190px" width="125px" src={movie.image} alt="movie" />
-                <Flex width="140px" mt="10px" flexDirection="column">
-                    <Heading color="#051622" fontSize="20px">{movie.title.length > 19 ? movie.title.substring(0, 20) + "..." : movie.title}</Heading>
-                    <Text mt="5px" color="#051622">{movie.year}</Text>
-                </Flex>
+            <Flex _hover={{ transform: "scale(1.1)" }} transition="transform .4s" p="10px" mt="10px" mb="5px" width="150px" cursor="pointer" flexDirection="column" onClick={onOpen}>
+                <Image borderRadius="10px" height="200px" width="150px" src={movie.image} alt="movie" />
             </Flex>
 
             <Modal size={"3xl"} onClose={handleClose} isOpen={isOpen} isCentered>

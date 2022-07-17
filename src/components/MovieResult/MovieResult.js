@@ -133,8 +133,8 @@ const MovieResult = (props) => {
 
     return (
         <Flex>
-            <Flex width="400px" cursor="pointer" flexDirection="row" mb="25px" onClick={onOpen}>
-                <Image width="100px" src={result.Poster} alt="movie" />
+            <Flex _hover={{ transform: "scale(1.05)" }} transition="transform .4s" width="400px" cursor="pointer" flexDirection="row" mb="25px" onClick={onOpen}>
+                <Image borderRadius="10px" width="100px" src={result.Poster} alt="movie" />
                 <Flex flexDirection="column" ml="20px">
                     <Heading color="#051622" fontSize="20px">{result.Title}</Heading>
                     <Text color="#051622">{result.Year} •  

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
-import { Text, Flex, Heading, Spinner, Divider, Center } from "@chakra-ui/react";
-import MyList from "../MyList/MyList";
-import HorizontalScroll from 'react-horizontal-scrolling';
+import { Flex, Text } from "@chakra-ui/react";
+import CategoryList from "../CategoryList/CategoryList";
 
 const Favourites = () => {
 
@@ -14,6 +13,7 @@ const Favourites = () => {
   const [update, setUpdate] = useState(false);
   const [favLoading, setFavLoading] = useState(true);
   const [watchLoading, setWatchLoading] = useState(true);
+  const [clicked, setClicked] = useState("all");
 
   const userEmail = auth.currentUser.email;
 
@@ -54,87 +54,80 @@ const Favourites = () => {
     getWatchList();
   }, [update]);
 
+  console.log(clicked);
+
   return (
-    <Flex flexDirection="row">
-      <Flex width="42.5%" ml="30px" flexDirection="column">
-        <Heading color="#1BA098" fontSize="26px" mb="25px">Favourites</Heading>
-        <Flex flexDirection="column">
-          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#c4cfce" flexDirection="column">
-            <Heading fontSize="24px" mb="15px">Movies ({movieFavs.length})</Heading>
-            {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieFavs.length === 0 ? (
-              <Text mb="25px">You have not liked any movies yet!</Text>
-            ) :
-              <HorizontalScroll>
-                <Flex ml="5px" mr="5px">
-                  {movieFavs.map((favourite, index) => {
-                  return (
-                      <MyList handleUpdate={handleUpdate} key={index} movie={favourite} />
-                  )
-                  })}
-                </Flex>
-              </HorizontalScroll> 
-            }
-          </Flex>
-          <Flex backgroundColor="#c4cfce" mt="30px" width="100%" borderRadius="10px" padding="20px" backgroundColor="#c4cfce" flexDirection="column">
-            <Flex flexDirection="column">
-              <Heading fontSize="24px" mb="15px">TV Shows ({tvFavs.length})</Heading>
-              {favLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvFavs.length === 0 ? (
-                <Text mb="25px">You have not liked any tv shows yet!</Text>
-              ) : 
-              <HorizontalScroll>
-                <Flex ml="5px" mr="5px">
-                  {tvFavs.map((favourite, index) => {
-                    return (
-                        <MyList handleUpdate={handleUpdate} key={index} movie={favourite} />
-                    )
-                  })}
-                </Flex>
-              </HorizontalScroll>
-              }
-            </Flex>
-          </Flex>
+    <Flex flexDirection="column">
+      <Flex justifyContent="center" flexDirection="row" mb="30px">
+        {clicked !== "all" ?
+        <Flex _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('all')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+          <Text color="#1BA098">All</Text>
+        </Flex> :
+        <Flex backgroundColor="#1BA098" _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('all')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+          <Text fontWeight="bold" color="#051622">All</Text>
         </Flex>
-      </Flex>
-      <Center pl="50px" pr="20px">
-        <Divider height="75%" orientation="vertical" />
-      </Center>
-      <Flex ml="30px" width="42.5%" flexDirection="column">
-        <Heading color="#1BA098" fontSize="26px" mb="25px">My Watch List</Heading>
-        <Flex flexDirection="column">
-          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#c4cfce" flexDirection="column">
-            <Heading fontSize="24px" mb="15px">Movies ({movieWatch.length})</Heading>
-              {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : movieWatch.length === 0 ? (
-                <Text mb="25px">You have not added any movies to your watch list yet!</Text>
-              ) :
-              <HorizontalScroll>
-                <Flex ml="5px" mr="5px">
-                  {movieWatch.map((watch, index) => {
-                    return (
-                        <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
-                    )
-                  })}
-                </Flex>
-              </HorizontalScroll> 
-              }
-          </Flex>
-          <Flex width="100%" borderRadius="10px" padding="20px" backgroundColor="#c4cfce" mt="30px" flexDirection="column">
-            <Heading fontSize="24px" mb="15px">TV Shows ({tvWatch.length})</Heading>
-              {watchLoading ? <Spinner justifyContent="center" alignItems="center" /> : tvWatch.length === 0 ? (
-                <Text mb="25px">You have not added any tv shows to your watch list yet!</Text>
-              ) :
-              <HorizontalScroll>
-                <Flex ml="5px" mr="5px">
-                  {tvWatch.map((watch, index) => {
-                    return (
-                        <MyList handleUpdate={handleUpdate} key={index} movie={watch} />
-                    )
-                  })}
-                </Flex>
-              </HorizontalScroll>
-              }
-          </Flex>
+        }
+        {clicked !== "movies" ?
+        <Flex _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('movies')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+          <Text color="#1BA098">Movies</Text>
+        </Flex> :
+        <Flex backgroundColor="#1BA098" _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('movies')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+          <Text fontWeight="bold" color="#051622">Movies</Text>
         </Flex>
+        }
+        {clicked !== "shows" ?
+        <Flex _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('shows')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+          <Text color="#1BA098">TV Shows</Text>
+        </Flex> :
+        <Flex backgroundColor="#1BA098" _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('shows')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+          <Text fontWeight="bold" color="#051622">TV Shows</Text>
+        </Flex>
+        }
+        {clicked !== "favs" ?
+        <Flex _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('favs')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+          <Text color="#1BA098">Favourites</Text>
+        </Flex> :
+        <Flex backgroundColor="#1BA098" _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('favs')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+          <Text fontWeight="bold" color="#051622">Favourites</Text>
+        </Flex>
+        }
+        {clicked !== "watch" ?
+        <Flex _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('watch')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+          <Text color="#1BA098">Watch List</Text>
+        </Flex> :
+        <Flex backgroundColor="#1BA098" _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('watch')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+          <Text fontWeight="bold" color="#051622">Watch List</Text>
+        </Flex>
+        }
       </Flex>
+      { clicked === "all" ?
+      <Flex flexDirection="column">
+        <CategoryList title="Favourite Movies" list={movieFavs} handleUpdate={handleUpdate} loading={favLoading} type="movies" action="liked" />
+        <CategoryList title="Favourite TV Shows" list={tvFavs} handleUpdate={handleUpdate} loading={favLoading} type="tv shows" action="liked" />
+        <CategoryList title="Movie Watch List" list={movieWatch} handleUpdate={handleUpdate} loading={watchLoading} type="movies" action="added" />
+        <CategoryList title="TV Watch List" list={tvWatch} handleUpdate={handleUpdate} loading={watchLoading} type="tv shows" action="added" />
+      </Flex>
+      : clicked === "movies" ?
+      <Flex flexDirection="column">
+        <CategoryList title="Favourite Movies" list={movieFavs} handleUpdate={handleUpdate} loading={favLoading} type="movies" action="liked" />
+        <CategoryList title="Movie Watch List" list={movieWatch} handleUpdate={handleUpdate} loading={watchLoading} type="movies" action="added" />
+      </Flex>
+      : clicked === "shows" ?
+      <Flex flexDirection="column">
+        <CategoryList title="Favourite TV Shows" list={tvFavs} handleUpdate={handleUpdate} loading={favLoading} type="tv shows" action="liked" />
+        <CategoryList title="TV Watch List" list={tvWatch} handleUpdate={handleUpdate} loading={watchLoading} type="tv shows" action="added" />
+      </Flex>
+      : clicked === "favs" ?
+      <Flex flexDirection="column">
+        <CategoryList title="Favourite Movies" list={movieFavs} handleUpdate={handleUpdate} loading={favLoading} type="movies" action="liked" />
+        <CategoryList title="Favourite TV Shows" list={tvFavs} handleUpdate={handleUpdate} loading={favLoading} type="tv shows" action="liked" />
+      </Flex>
+      :
+      <Flex flexDirection="column">
+        <CategoryList title="Movie Watch List" list={movieWatch} handleUpdate={handleUpdate} loading={watchLoading} type="movies" action="added" />
+        <CategoryList title="TV Watch List" list={tvWatch} handleUpdate={handleUpdate} loading={watchLoading} type="tv shows" action="added" />
+      </Flex>
+      }
     </Flex>
   );
 };

@@ -21,7 +21,7 @@ const FriendCard = (props) => {
     }
 
     return (
-        <Flex cursor={following && "pointer"} _hover={{ boxShadow:'dark-lg', rounded:'md', borderRadius: '10px', padding: "15px" }} mb="15px" mr="10px" borderRadius="10px" padding="15px" backgroundColor="#c4cfce" flexDirection="column">
+        <Flex _hover={following && { transform: "scale(0.95)" }} transition="transform .4s" cursor={following && "pointer"} mb="15px" mr="10px" borderRadius="10px" padding="15px" backgroundColor="#c4cfce" flexDirection="column">
             {props.loading ? <Spinner /> :
             profile ?
             <Flex width="250px" mb="10px" ml="5px" flexDirection="column" onClick={following ? () => props.handleRouteChange('friendProfile', friend) : null}>
