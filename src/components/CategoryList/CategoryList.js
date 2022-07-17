@@ -5,15 +5,15 @@ import HorizontalScroll from 'react-horizontal-scrolling';
 
 const CategoryList = (props) => {
 
-    const { title, list, handleUpdate, loading, type, action } = props;
+    const { title, list, handleUpdate, loading, type, action, friend } = props;
 
     return (
         <Flex width="85%" flexDirection="column" ml="30px" mb="30px">
             <Heading color="#1BA098" fontSize="26px">{title}</Heading>
             <Flex borderRadius="10px" flexDirection="column">
-                {loading ? <Spinner color="white" /> : list.length === 0 ? (
-                <Text mb="25px">You have not {action} any {type} yet!</Text>
-                ) :
+                {loading ? <Spinner color="white" /> : list.length === 0 && friend ? (
+                <Text mt="15px" color="white">No {action} {type}</Text>
+                ) : list.length === 0 && !friend ? <Text mt="15px" color="white">You have not {action} any {type} yet</Text> :
                 <HorizontalScroll>
                     <Flex>
                     {list.map((item, index) => {

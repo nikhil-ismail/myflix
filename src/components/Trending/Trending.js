@@ -36,7 +36,7 @@ const Trending = (props) => {
             <Heading color="#1BA098" fontSize="26px">Trending {props.title}</Heading>
             <Flex flexDirection="column" mr="30px" borderRadius="10px">
                 {
-                    props.loading ? <Spinner /> : uniqueTrending.length === 0
+                    props.loading ? <Spinner color="white" /> : uniqueTrending.length === 0
                     ?
                     <Text color="#051622" mt="5px">There is nothing trending at the moment!</Text>
                     :
