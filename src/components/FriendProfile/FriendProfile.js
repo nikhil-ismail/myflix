@@ -13,9 +13,12 @@ const FriendProfile = (props) => {
   const [tvFavs, setTvFavs] = useState([]);
   const [movieWatch, setMovieWatch] = useState([]);
   const [tvWatch, setTvWatch] = useState([]);
+  const [movieTop, setMovieTop] = useState([]);
+  const [tvTop, setTvTop] = useState([]);
   const [update, setUpdate] = useState(false);
   const [favLoading, setFavLoading] = useState(true);
   const [watchLoading, setWatchLoading] = useState(true);
+  const [topLoading, setTopLoading] = useState(true);
   const [clicked, setClicked] = useState("all");
 
   let splitActors = profile.actors ? profile.actors.split(" ") : [];
@@ -57,6 +60,20 @@ const FriendProfile = (props) => {
     }
   };
 
+  const getTop5 = async () => {
+    try {
+      const q = query(collection(db, "top5"), where("email", "==", profile && profile.email));
+      const data = await getDocs(q);
+      const top5 = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      setMovieTop(top5.filter(item => item.movie.type === "movie"));
+      setTvTop(top5.filter(item => item.movie.type === "series"));
+      setTopLoading(false);
+    }
+    catch(err) {
+      console.log(err);
+    }
+  };
+
   const handleUpdate = () => {
     setUpdate(!update);
   }
@@ -64,10 +81,11 @@ const FriendProfile = (props) => {
   useEffect(() => {
     getFavourites();
     getWatchList();
-  }, []);
+    getTop5();
+  }, [update]);
 
   return (
-    <Flex pb="10%" flexDirection="row">
+    <Flex pb="25%" flexDirection="row">
       <Flex flexDirection="column" ml="25px" mt="15px">
         <FriendCard profile={true} friend={profile} />
       </Flex>
@@ -97,6 +115,14 @@ const FriendProfile = (props) => {
             <Text fontWeight="bold" color="#051622">TV Shows</Text>
           </Flex>
           }
+          {clicked !== "top" ?
+          <Flex _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('top')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+            <Text color="#1BA098">Top 5</Text>
+          </Flex> :
+          <Flex backgroundColor="#1BA098" _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('top')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+            <Text fontWeight="bold" color="#051622">Top 5</Text>
+          </Flex>
+          }
           {clicked !== "favs" ?
           <Flex _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('favs')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
             <Text color="#1BA098">Favourites</Text>
@@ -117,18 +143,27 @@ const FriendProfile = (props) => {
         <Flex flexDirection="column">
           { clicked === "all" ?
             <Flex flexDirection="column">
+              <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s Top 5 Movies"} list={movieTop} handleUpdate={handleUpdate} loading={topLoading} type="movies" action="added" />
+              <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s Top 5 TV Shows"} list={tvTop} handleUpdate={handleUpdate} loading={topLoading} type="tv shows" action="added" />
               <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s Favourite Movies"} list={movieFavs} handleUpdate={handleUpdate} loading={favLoading} type="movies" action="liked" />
               <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s Favourite TV Shows"} list={tvFavs} handleUpdate={handleUpdate} loading={favLoading} type="tv shows" action="liked" />
               <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s Movie Watch List"} list={movieWatch} handleUpdate={handleUpdate} loading={watchLoading} type="movies" action="added" />
               <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s TV Show Watch List"} list={tvWatch} handleUpdate={handleUpdate} loading={watchLoading} type="tv shows" action="added" />
             </Flex>
+            : clicked === "top" ?
+            <Flex flexDirection="column">
+              <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s Top 5 Movies"} list={movieTop} handleUpdate={handleUpdate} loading={topLoading} type="movies" action="added" />
+              <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s Top 5 TV Shows"} list={tvTop} handleUpdate={handleUpdate} loading={topLoading} type="tv shows" action="added" />
+            </Flex>
             : clicked === "movies" ?
             <Flex flexDirection="column">
+              <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s Top 5 Movies"} list={movieTop} handleUpdate={handleUpdate} loading={topLoading} type="movies" action="added" />
               <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s Favourite Movies"} list={movieFavs} handleUpdate={handleUpdate} loading={favLoading} type="movies" action="liked" />
               <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s Movie Watch List"} list={movieWatch} handleUpdate={handleUpdate} loading={watchLoading} type="movies" action="added" />
             </Flex>
             : clicked === "shows" ?
             <Flex flexDirection="column">
+              <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s Top 5 TV Shows"} list={tvTop} handleUpdate={handleUpdate} loading={topLoading} type="tv shows" action="added" />
               <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s Favourite TV Shows"} list={tvFavs} handleUpdate={handleUpdate} loading={favLoading} type="tv shows" action="liked" />
               <CategoryList friend={true} title={profile.name && profile.name.split(" ")[0] + "'s TV Show Watch List"} list={tvWatch} handleUpdate={handleUpdate} loading={watchLoading} type="tv shows" action="added" />
             </Flex>

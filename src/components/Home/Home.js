@@ -76,7 +76,7 @@ const Home = () => {
   }, [searchQuery])
 
   return (
-    <Flex>
+    <Flex pb="10%">
       <Flex flexDirection="row">
         {
           searchQuery === ""

@@ -10,9 +10,12 @@ const Favourites = () => {
   const [tvFavs, setTvFavs] = useState([]);
   const [movieWatch, setMovieWatch] = useState([]);
   const [tvWatch, setTvWatch] = useState([]);
+  const [movieTop, setMovieTop] = useState([]);
+  const [tvTop, setTvTop] = useState([]);
   const [update, setUpdate] = useState(false);
   const [favLoading, setFavLoading] = useState(true);
   const [watchLoading, setWatchLoading] = useState(true);
+  const [topLoading, setTopLoading] = useState(true);
   const [clicked, setClicked] = useState("all");
 
   const userEmail = auth.currentUser.email;
@@ -45,6 +48,20 @@ const Favourites = () => {
     }
   };
 
+  const getTop5 = async () => {
+    try {
+      const q = query(collection(db, "top5"), where("email", "==", userEmail));
+      const data = await getDocs(q);
+      const top5 = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      setMovieTop(top5.filter(item => item.movie.type === "movie"));
+      setTvTop(top5.filter(item => item.movie.type === "series"));
+      setTopLoading(false);
+    }
+    catch(err) {
+      console.log(err);
+    }
+  };
+
   const handleUpdate = () => {
     setUpdate(!update);
   }
@@ -52,10 +69,11 @@ const Favourites = () => {
   useEffect(() => {
     getFavourites();
     getWatchList();
+    getTop5();
   }, [update]);
 
   return (
-    <Flex flexDirection="column">
+    <Flex flexDirection="column" pb="25%">
       <Flex justifyContent="center" flexDirection="row" mb="30px">
         {clicked !== "all" ?
         <Flex _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('all')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
@@ -81,6 +99,14 @@ const Favourites = () => {
           <Text fontWeight="bold" color="#051622">TV Shows</Text>
         </Flex>
         }
+        {clicked !== "top" ?
+        <Flex _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('top')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+          <Text color="#1BA098">Top 5</Text>
+        </Flex> :
+        <Flex backgroundColor="#1BA098" _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('top')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
+          <Text fontWeight="bold" color="#051622">Top 5</Text>
+        </Flex>
+        }
         {clicked !== "favs" ?
         <Flex _hover={{ transform: "scale(1.1)" }} transition="transform .4s" onClick={() => setClicked('favs')} cursor="pointer" mr="20px" alignItems="center" border="2px solid #1BA098" borderRadius="10px" p="5px 20px">
           <Text color="#1BA098">Favourites</Text>
@@ -100,18 +126,27 @@ const Favourites = () => {
       </Flex>
       { clicked === "all" ?
       <Flex flexDirection="column">
+        <CategoryList title="Top 5 Movies" list={movieTop} handleUpdate={handleUpdate} loading={topLoading} type="movies" action="added" />
+        <CategoryList title="Top 5 TV Shows" list={tvTop} handleUpdate={handleUpdate} loading={topLoading} type="tv shows" action="added" />
         <CategoryList title="Favourite Movies" list={movieFavs} handleUpdate={handleUpdate} loading={favLoading} type="movies" action="liked" />
         <CategoryList title="Favourite TV Shows" list={tvFavs} handleUpdate={handleUpdate} loading={favLoading} type="tv shows" action="liked" />
         <CategoryList title="Movie Watch List" list={movieWatch} handleUpdate={handleUpdate} loading={watchLoading} type="movies" action="added" />
         <CategoryList title="TV Watch List" list={tvWatch} handleUpdate={handleUpdate} loading={watchLoading} type="tv shows" action="added" />
       </Flex>
+      : clicked === "top" ?
+      <Flex flexDirection="column">
+        <CategoryList title="Top 5 Movies" list={movieTop} handleUpdate={handleUpdate} loading={topLoading} type="movies" action="added" />
+        <CategoryList title="Top 5 TV Shows" list={tvTop} handleUpdate={handleUpdate} loading={topLoading} type="tv shows" action="added" />
+      </Flex>
       : clicked === "movies" ?
       <Flex flexDirection="column">
+        <CategoryList title="Top 5 Movies" list={movieTop} handleUpdate={handleUpdate} loading={topLoading} type="movies" action="added" />
         <CategoryList title="Favourite Movies" list={movieFavs} handleUpdate={handleUpdate} loading={favLoading} type="movies" action="liked" />
         <CategoryList title="Movie Watch List" list={movieWatch} handleUpdate={handleUpdate} loading={watchLoading} type="movies" action="added" />
       </Flex>
       : clicked === "shows" ?
       <Flex flexDirection="column">
+        <CategoryList title="Top 5 TV Shows" list={tvTop} handleUpdate={handleUpdate} loading={topLoading} type="tv shows" action="added" />
         <CategoryList title="Favourite TV Shows" list={tvFavs} handleUpdate={handleUpdate} loading={favLoading} type="tv shows" action="liked" />
         <CategoryList title="TV Watch List" list={tvWatch} handleUpdate={handleUpdate} loading={watchLoading} type="tv shows" action="added" />
       </Flex>
