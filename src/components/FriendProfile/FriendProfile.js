@@ -18,7 +18,6 @@ const FriendProfile = (props) => {
   const [watchLoading, setWatchLoading] = useState(true);
   const [clicked, setClicked] = useState("all");
 
-  let splitGenres = profile.genres ? profile.genres.split(" ") : [];
   let splitActors = profile.actors ? profile.actors.split(" ") : [];
   let fullActors = [];
 

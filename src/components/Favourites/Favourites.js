@@ -54,8 +54,6 @@ const Favourites = () => {
     getWatchList();
   }, [update]);
 
-  console.log(clicked);
-
   return (
     <Flex flexDirection="column">
       <Flex justifyContent="center" flexDirection="row" mb="30px">

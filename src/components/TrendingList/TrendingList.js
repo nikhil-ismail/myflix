@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Spinner, Icon, Divider, Square, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, useDisclosure, Text, Flex, Image } from '@chakra-ui/react';
-import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
+import { collection, getDocs, query, where, addDoc, doc, deleteDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase-config";
 import axios from 'axios';
 import { FaImdb } from 'react-icons/fa';
@@ -13,6 +13,8 @@ const TrendingList = (props) => {
 
     const [liked, setLiked] = useState(false);
     const [listed, setListed] = useState(false);
+    const [favs, setFavs] = useState([]);
+    const [watch, setWatch] = useState([]);
     const [loading, setLoading] = useState(true);
     const [movieDetails, setMovieDetails] = useState({});
 
@@ -28,7 +30,8 @@ const TrendingList = (props) => {
           const q = query(collection(db, "favourites"), where("email", "==", userEmail));
           const data = await getDocs(q);
           const favourites = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-          setLiked(favourites.find(item => item.movie.title === movie.title && item.movie.year === movie.year) ? true : false);
+          setFavs(favourites);
+          setLiked(favourites.find(item => item.movie.title === movie.movie.title && item.movie.year === movie.movie.year) ? true : false);
         }
         catch(err) {
           console.log(err);
@@ -40,7 +43,8 @@ const TrendingList = (props) => {
           const q = query(collection(db, "watch-list"), where("email", "==", userEmail));
           const data = await getDocs(q);
           const watchList = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-          setListed(watchList.find(item => item.movie.title === movie.title && item.movie.year === movie.year) ? true : false);
+          setWatch(watchList);
+          setListed(watchList.find(item => item.movie.title === movie.movie.title && item.movie.year === movie.movie.year) ? true : false);
         }
         catch(err) {
           console.log(err);
@@ -48,7 +52,7 @@ const TrendingList = (props) => {
     };
 
     useEffect(() => {
-        axios.get(`http://www.omdbapi.com/?apikey=dffd1309&i=${movie.id}`)
+        axios.get(`http://www.omdbapi.com/?apikey=dffd1309&i=${movie.movie.id}`)
         .then(response => {
             if (response.data.Response === "True") {
                 const data = response.data;
@@ -85,7 +89,10 @@ const TrendingList = (props) => {
 
     const handleUnlike = async (movie) => {
         try {
+            const film = favs.find(item => item.movie.title === movie.movie.title);
             setLiked(false);
+            await deleteDoc(doc(db, "favourites", film.id));
+            getFavourites();
         }
         catch(err) {
             console.log(err);
@@ -112,7 +119,10 @@ const TrendingList = (props) => {
     
     const handleRemoveWatch = async (movie) => {
         try {
+            const film = watch.find(item => item.movie.title === movie.movie.title);
             setListed(false);
+            await deleteDoc(doc(db, "watch-list", film.id));
+            getWatchList();
         }
         catch(err) {
             console.log(err);
@@ -127,7 +137,7 @@ const TrendingList = (props) => {
     return (
         <Flex>
             <Flex _hover={{ transform: "scale(1.1)" }} transition="transform .4s" p="10px" mt="10px" mb="5px" width="150px" cursor="pointer" flexDirection="column" onClick={onOpen}>
-                <Image borderRadius="10px" height="200px" width="150px" src={movie.image} alt="movie" />
+                <Image borderRadius="10px" height="200px" width="150px" src={movie.movie.image} alt="movie" />
             </Flex>
 
             <Modal size={"3xl"} onClose={handleClose} isOpen={isOpen} isCentered>
@@ -137,13 +147,13 @@ const TrendingList = (props) => {
                     <Box pb="30px">
                         <Flex flexDirection="row">
                             <Flex flexDirection="column">
-                                <ModalHeader ml="5px" fontSize="35px">{movie.title}</ModalHeader>
+                                <ModalHeader ml="5px" fontSize="35px">{movie.movie.title}</ModalHeader>
                             </Flex>
                         </Flex>
                         <ModalBody>
                             <Flex flexDirection="column">
                                 <Flex flexDirection="row">
-                                    <Image borderRadius="10px" width="275px" src={movie.image} alt="movie" />
+                                    <Image borderRadius="10px" width="275px" src={movie.movie.image} alt="movie" />
                                     <Flex flexDirection="column">
                                         <Flex ml="20px" flexDirection="column">
                                             <Flex flexDirection="row">
@@ -176,7 +186,7 @@ const TrendingList = (props) => {
                                                 <Text fontWeight="bold">Released:</Text>
                                                 <Text ml="5px">{movieDetails.Released}</Text>
                                             </Flex>
-                                            {movie.type === "movie" && 
+                                            {movie.movie.type === "movie" && 
                                             <Flex mb="10px" flexDirection="row">
                                                 <Text fontWeight="bold">Box Office:</Text>
                                                 <Text ml="5px">{movieDetails.BoxOffice}</Text>
@@ -190,7 +200,7 @@ const TrendingList = (props) => {
                                                 <Icon w={7} h={7} as={AiOutlineMinus} /> 
                                             </Flex>
                                             :
-                                            <Flex cursor="pointer" onClick={() => handleWatchList(movie)} _hover={{ backgroundColor: "#c4cfce", color: "black", padding: "10px", borderRadius: "20px" }} p="10px" mb="15px" mt="15px" mr="15px">
+                                            <Flex cursor="pointer" onClick={() => handleWatchList(movie.movie)} _hover={{ backgroundColor: "#c4cfce", color: "black", padding: "10px", borderRadius: "20px" }} p="10px" mb="15px" mt="15px" mr="15px">
                                                 <Text mt="2px" mr="10px">Add</Text>
                                                 <Icon w={7} h={7} as={AiOutlinePlus} />
                                             </Flex>
@@ -202,7 +212,7 @@ const TrendingList = (props) => {
                                                 <Icon w={7} h={7} as={AiFillHeart} />
                                             </Flex>
                                             :
-                                            <Flex cursor="pointer"  onClick={() => handleLike(movie)} _hover={{ backgroundColor: "#c4cfce", color: "black", padding: "10px", borderRadius: "20px" }} p="10px" mb="15px" mt="15px" mr="15px">
+                                            <Flex cursor="pointer"  onClick={() => handleLike(movie.movie)} _hover={{ backgroundColor: "#c4cfce", color: "black", padding: "10px", borderRadius: "20px" }} p="10px" mb="15px" mt="15px" mr="15px">
                                                 <Text mt="2px" mr="10px">Like</Text>
                                                 <Icon alt="" w={7} h={7} as={AiOutlineHeart} />
                                             </Flex>

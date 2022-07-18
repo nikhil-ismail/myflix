@@ -6,6 +6,7 @@ import Trending from '../Trending/Trending';
 import { Flex } from "@chakra-ui/react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db, auth } from "../../firebase-config";
+import { faV } from '@fortawesome/free-solid-svg-icons';
 
 const Home = () => {
 
@@ -21,15 +22,19 @@ const Home = () => {
 
   const getTrending = async () => {
     try {
-      const q = query(collection(db, "favourites"), where("email", "!=", userEmail));
-      const data = await getDocs(q);
-      const favourites = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      let favourites = [];
+      const querySnapshot = await getDocs(collection(db, "favourites"));
+      querySnapshot.forEach((doc) => {
+        favourites.push({ ...doc.data(), id: doc.id })
+      });
       const movieFavs = favourites.filter(item => item.movie.type === "movie");
       const tvFavs = favourites.filter(item => item.movie.type === "series");
 
-      const q2 = query(collection(db, "watch-list"), where("email", "!=", userEmail));
-      const data2 = await getDocs(q2);
-      const watchList = data2.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      let watchList = [];
+      const querySnapshot2 = await getDocs(collection(db, "watch-list"));
+      querySnapshot2.forEach((doc) => {
+        watchList.push({ ...doc.data(), id: doc.id })
+      });
       const movieWatch = watchList.filter(item => item.movie.type === "movie");
       const tvWatch = watchList.filter(item => item.movie.type === "series");
 
@@ -69,8 +74,6 @@ const Home = () => {
     })
     getTrending();
   }, [searchQuery])
-
-  console.log(results);
 
   return (
     <Flex>
