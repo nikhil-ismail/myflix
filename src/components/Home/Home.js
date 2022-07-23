@@ -60,7 +60,7 @@ const Home = () => {
   }
 
   useEffect(() => {
-    axios.get(`http://www.omdbapi.com/?apikey=dffd1309&s=${searchQuery}`)
+    axios.get(`https://www.omdbapi.com/?apikey=dffd1309&s=${searchQuery}`)
     .then(response => {
         if (response.data.Response === "True") {
           setResults(response.data.Search.slice(0,8));

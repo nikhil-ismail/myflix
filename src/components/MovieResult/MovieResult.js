@@ -66,7 +66,7 @@ const MovieResult = (props) => {
     };
 
     useEffect(() => {
-        axios.get(`http://www.omdbapi.com/?apikey=dffd1309&i=${result.imdbID}`)
+        axios.get(`https://www.omdbapi.com/?apikey=dffd1309&i=${result.imdbID}`)
         .then(response => {
             if (response.data.Response === "True") {
                 const data = response.data;
