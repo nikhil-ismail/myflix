@@ -247,12 +247,12 @@ const TrendingList = (props) => {
                                         <Flex ml="20px" flexDirection="row">
                                             {listed ?
                                             <Flex cursor="pointer" onClick={() => handleRemoveWatch(movie)} _hover={{ backgroundColor: "#c4cfce", color: "black", padding: "10px", borderRadius: "20px" }} p="10px" mb="15px" mt="15px" mr="15px">
-                                                <Text mt="2px" mr="10px">Remove</Text>
+                                                <Text mt="2px" mr="10px">Watch List</Text>
                                                 <Icon w={7} h={7} as={AiOutlineMinus} /> 
                                             </Flex>
                                             :
                                             <Flex cursor="pointer" onClick={() => handleWatchList(movie.movie)} _hover={{ backgroundColor: "#c4cfce", color: "black", padding: "10px", borderRadius: "20px" }} p="10px" mb="15px" mt="15px" mr="15px">
-                                                <Text mt="2px" mr="10px">Add</Text>
+                                                <Text mt="2px" mr="10px">Watch List</Text>
                                                 <Icon w={7} h={7} as={AiOutlinePlus} />
                                             </Flex>
                                             }
