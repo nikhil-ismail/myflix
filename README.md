@@ -1,6 +1,6 @@
-# Movie Rank
+# MyFlix
 
-Check it out [here](https://nikhil-ismail.github.io/myflix)
+Check out the website [here](https://nikhil-ismail.github.io/myflix)!
 
 ## Technologies
 The frontend of this application was built with React.js. The application's database management system and backend was built with Firebase.
