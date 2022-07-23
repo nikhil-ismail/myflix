@@ -56,7 +56,7 @@ const Login = (props) => {
           </Flex>
           <Button mb="15px" backgroundColor="#1BA098" color="white" width="200px" borderRadius="20px" onClick={login}>Login</Button>
           <Text mb="15px">or</Text>
-          <button type="button" class="login-with-google-btn" onClick={googleLogin}>Login with Google</button>
+          <button type="button" className="login-with-google-btn" onClick={googleLogin}>Login with Google</button>
         </Flex>
       </Flex>
       <Flex alignItems="center" pt="230px" flexDirection="column" width="45%">

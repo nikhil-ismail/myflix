@@ -17,6 +17,7 @@ const MyList = (props) => {
     const [movieTop, setMovieTop] = useState([]);
     const [tvTop, setTvTop] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [changed, setChanged] = useState(false);
     const [movieDetails, setMovieDetails] = useState({});
 
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -83,7 +84,7 @@ const MyList = (props) => {
         getFavourites();
         getWatchList();
         getTop();
-    }, []);
+    }, [changed]);
 
     const handleLike = async (film) => {
         let movie = {
@@ -174,6 +175,7 @@ const MyList = (props) => {
 
     const handleClose = () => {
         onClose();
+        setChanged(!changed);
         props.handleUpdate();
     }
 

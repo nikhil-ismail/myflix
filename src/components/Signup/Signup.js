@@ -51,7 +51,7 @@ const Signup = (props) => {
           </Flex>
           <Button mb="15px" backgroundColor="#1BA098" color="white" width="200px" borderRadius="20px" onClick={register}>Sign Up</Button>
           <Text mb="15px">or</Text>
-          <button type="button" class="signup-with-google-btn" onClick={googleRegister}>Signup with Google</button>
+          <button type="button" className="signup-with-google-btn" onClick={googleRegister}>Signup with Google</button>
         </Flex>
       </Flex>
       <Flex alignItems="center" pt="230px" flexDirection="column" width="45%">
