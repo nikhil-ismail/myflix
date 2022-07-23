@@ -3,7 +3,7 @@
 Check out the website [here](https://nikhil-ismail.github.io/myflix)!
 
 ## Technologies
-The frontend of this application was built with React.js. The application's database management system and backend was built with Firebase.
+The frontend of this application was built with **React.js**. The application's database management system and backend was built with **Firebase**.
 
 ## Features
 - Search a movie or tv show title and see results pulled from IMDB's database
